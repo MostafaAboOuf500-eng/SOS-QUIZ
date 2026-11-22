@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOS | منصة الاختبارات الذكية: حوّل محاضراتك لاختبارات مجانا</title>
+<meta name="description" content="ارفع محاضرتك (PDF أو Word أو PowerPoint) واحصل على اختبار فوري بأسئلة اختيار من متعدد وصح وخطأ وأكمل، مع تايمر وتقدير نهائي ونتائج محفوظة. مجاني.">
+<meta name="keywords" content="اختبارات, مذاكرة, محاضرات, اختبار من ملف, امتحان اونلاين, SOS">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#4f46e5">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="SOS | منصة الاختبارات الذكية">
+<meta property="og:description" content="ارفع محاضرتك والمنصة تطلعلك اختبار منها وتديك تقدير فوري.">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mut:#667085;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--bd:#e4e7ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12141b;--card:#1b1e28;--tx:#eceef4;--mut:#9aa1b2;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2c3140}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#12141b;--card:#1b1e28;--tx:#eceef4;--mut:#9aa1b2;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2c3140}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--bd)}
+nav{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:10px 16px;flex-wrap:wrap}
+nav b{font-size:1.2rem;margin-inline-end:auto;color:var(--pri)}
+nav a{color:var(--tx);text-decoration:none;padding:6px 12px;border-radius:8px}nav a.on{background:var(--pri);color:#fff}
+main{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+section[hidden]{display:none}
+h1{font-size:1.9rem;margin:8px 0}h2{font-size:1.25rem}p.sub{color:var(--mut)}
+.hero{text-align:center;padding:28px 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.tbl{width:100%;border-collapse:collapse}.tbl td,.tbl th{padding:8px;border-bottom:1px solid var(--bd);text-align:start}
+.gb{display:inline-block;min-width:44px;text-align:center;font-weight:700;border-radius:8px;padding:1px 8px;color:#fff}
+textarea{width:100%;min-height:150px;border:1px solid var(--bd);border-radius:10px;padding:10px;background:var(--bg);color:var(--tx);font:inherit}
+.drop{display:block;border:2px dashed var(--bd);border-radius:12px;padding:18px;text-align:center;cursor:pointer;color:var(--mut);margin-bottom:12px}
+.drop:hover{border-color:var(--pri)}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}
+label.chk{display:flex;gap:6px;align-items:center}
+select,input[type=number],input[type=text]{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:6px 10px;font:inherit}
+button,a.btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button.ghost{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+.q .n{color:var(--mut);font-size:.85rem}.q .t{font-weight:600;margin:4px 0 8px}
+.opt{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.fb{margin-top:6px;font-size:.92rem}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.big{text-align:center}.big .gb{font-size:2.2rem;padding:6px 22px}.big .sc{font-size:1.4rem;font-weight:700;margin-top:8px}
+.msg{color:var(--mut);font-size:.9rem;min-height:1.4em}
+.timer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:8;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 14px;margin-bottom:12px;font-weight:700;text-align:center}
+footer{text-align:center;color:var(--mut);padding:18px;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><nav>
+  <b>📚 SOS</b>
+  <a href="#home" data-n="home">الرئيسية</a>
+  <a href="#quiz" data-n="quiz">اختبار جديد</a>
+  <a href="#results" data-n="results">نتائجي</a>
+</nav></header>
+<main>
+
+<section data-v="home">
+  <div class="hero">
+    <h1>ذاكر بذكاء، اختبر نفسك في ثواني</h1>
+    <p class="sub">ارفع محاضرتك والمنصة تطلعلك اختبار منها وتديك تقدير فوري.</p>
+    <a class="btn" href="#quiz">ابدأ اختبار الآن</a>
+  </div>
+  <div class="grid">
+    <div class="card"><h2>1. ارفع المحاضرة</h2><p class="sub">PDF أو Word أو PowerPoint أو نص عادي.</p></div>
+    <div class="card"><h2>2. حل الاختبار</h2><p class="sub">اختيار من متعدد، صح وخطأ، وأكمل الفراغ.</p></div>
+    <div class="card"><h2>3. اعرف تقديرك</h2><p class="sub">تقدير فوري ونتائجك بتتحفظ تتابع تطورك.</p></div>
+  </div>
+  <div class="card"><h2>نظام التقديرات</h2><table class="tbl" id="scale"></table></div>
+</section>
+
+<section data-v="quiz" hidden>
+  <div id="setup" class="card">
+    <h2>اختبار جديد</h2>
+    <label class="drop" for="file">📄 اضغط هنا لرفع ملف المحاضرة<br><small>pdf · docx · pptx · txt</small></label>
+    <input type="file" id="file" accept=".pdf,.docx,.pptx,.txt,.md" hidden>
+    <div class="msg" id="msg"></div>
+    <textarea id="text" dir="auto" placeholder="أو الصق نص المحاضرة هنا..."></textarea>
+    <div class="row">
+      <label>عدد الأسئلة <input type="number" id="count" value="10" min="3" max="40" style="width:70px"></label>
+      <label>مدة الامتحان بالدقايق (0 = بدون وقت) <input type="number" id="mins" value="0" min="0" max="300" style="width:70px"></label>
+      <label class="chk"><input type="checkbox" id="tMcq" checked> اختيار من متعدد</label>
+      <label class="chk"><input type="checkbox" id="tTf" checked> صح / خطأ</label>
+      <label class="chk"><input type="checkbox" id="tSh" checked> أكمل</label>
+    </div>
+    <button id="gen">ابدأ الاختبار</button>
+  </div>
+  <div id="quiz" hidden>
+    <div class="timer" id="timer" hidden></div>
+    <div id="qs"></div>
+    <div class="card big" id="result" hidden></div>
+    <div class="row"><button id="submit">تصحيح</button><button class="ghost" id="again">اختبار جديد</button><a class="btn ghost" href="#results" style="background:transparent;color:var(--pri);border:1px solid var(--pri)">نتائجي</a></div>
+  </div>
+</section>
+
+<section data-v="results" hidden>
+  <h2>نتائجي</h2>
+  <div class="grid" id="stats"></div>
+  <div class="card" style="overflow-x:auto"><table class="tbl" id="hist"></table></div>
+  <button class="ghost" id="clear">مسح النتائج</button>
+</section>
+</main>
+<footer>SOS · منصة الاختبارات الذكية</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim();
+const STOP=new Set(('هذا هذه ذلك التي الذي الذين على الى إلى عن في من مع كان كانت يكون تكون ايضا أيضا حيث عند بعد قبل بين كل او أو ثم لكن حتى هناك التى وهو وهي that this with from have been were which their there about would could should also into than then them they what when where while these those other such only more most some very will your').split(' '));
+const dec=s=>{const t=document.createElement('textarea');t.innerHTML=s;return t.value};
+function pageText(items){
+  const lines=[];let cur=[],py=null;
+  const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6)flush();
+    cur.push(x.str);
+    if(y!==null)py=y;
+    if(x.hasEOL)flush();
+  }
+  flush();
+  return lines.map(l=>/[\u0600-\u06FF]/.test(l.join(''))?l.reverse().join(''):l.join('')).join('\n');
+}
+function pageTextOld3(items){
+  let out='',py=null;
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6&&!/\n$/.test(out))out+='\n';
+    out+=x.str;
+    if(x.hasEOL&&!/\n$/.test(out))out+='\n';
+    if(y!==null)py=y;
+  }
+  return out;
+}
+function pageTextOld2(items){
+  const it=items.filter(x=>x.transform&&x.str.trim()!=='').map(x=>({s:x.str,x:x.transform[4],y:x.transform[5],w:x.width||0,h:Math.abs(x.transform[3])||10}));
+  const lines=[];
+  it.sort((a,b)=>b.y-a.y).forEach(t=>{const l=lines.find(l=>Math.abs(l.y-t.y)<Math.max(3,t.h*.4));if(l)l.t.push(t);else lines.push({y:t.y,t:[t]})});
+  const all=[];
+  lines.forEach(l=>{
+    l.ar=/[\u0600-\u06FF\uFB50-\uFEFF]/.test(l.t.map(t=>t.s).join(''));
+    l.t.sort((a,b)=>l.ar?b.x-a.x:a.x-b.x);
+    l.g=l.t.map((t,i)=>{if(!i)return 0;const p=l.t[i-1];return (l.ar?p.x-(t.x+t.w):t.x-(p.x+p.w))/t.h});
+    l.g.slice(1).forEach(g=>all.push(Math.max(-.5,Math.min(g,2))));
+  });
+  let th=.25;
+  if(all.length>5){
+    let lo=Math.min(...all),hi=Math.max(...all);
+    for(let k=0;k<12;k++){
+      const A=all.filter(g=>Math.abs(g-lo)<=Math.abs(g-hi)),B=all.filter(g=>Math.abs(g-lo)>Math.abs(g-hi));
+      if(A.length)lo=A.reduce((a,b)=>a+b,0)/A.length;
+      if(B.length)hi=B.reduce((a,b)=>a+b,0)/B.length;
+    }
+    if(hi-lo>.15)th=Math.min(.4,Math.max((lo+hi)/2,.1));
+  }
+  return lines.map(l=>l.t.map((t,i)=>(i&&l.g[i]>th&&!/\s$/.test(l.t[i-1].s)&&!/^\s/.test(t.s)?' ':'')+t.s).join('')).join('\n');
+}
+function pageTextOld(items){
+  const it=items.filter(x=>x.str!==undefined&&x.transform).map(x=>({s:x.str,x:x.transform[4],y:x.transform[5],w:x.width||0,h:Math.abs(x.transform[3])||10}));
+  const lines=[];
+  it.sort((a,b)=>b.y-a.y).forEach(t=>{const l=lines.find(l=>Math.abs(l.y-t.y)<Math.max(3,t.h*.4));if(l)l.t.push(t);else lines.push({y:t.y,t:[t]})});
+  return lines.map(l=>{
+    const ar=/[\u0600-\u06FF\uFB50-\uFEFF]/.test(l.t.map(t=>t.s).join(''));
+    l.t.sort((a,b)=>ar?b.x-a.x:a.x-b.x);
+    let s='',prev=null;
+    for(const t of l.t){
+      if(prev){const gap=ar?prev.x-(t.x+t.w):t.x-(prev.x+prev.w);if(gap>t.h*.2&&!/\s$/.test(s)&&!/^\s/.test(t.s))s+=' '}
+      s+=t.s;prev=t;
+    }
+    return s;
+  }).join('\n');
+}
+const GR=[{min:90,l:'A+',n:'ممتاز جدا',c:'#15803d'},{min:80,l:'A',n:'ممتاز',c:'#16a34a'},{min:70,l:'C+',n:'جيد جدا',c:'#2563eb'},{min:60,l:'C',n:'جيد',c:'#d97706'},{min:0,l:'F',n:'راسب',c:'#dc2626'}];
+const grade=p=>GR.find(g=>p>=g.min);
+const badge=g=>`<span class="gb" style="background:${g.c}">${g.l}</span>`;
+const ranges=['90% - 100%','80% - 89%','70% - 79%','60% - 69%','أقل من 60%'];
+$('scale').innerHTML='<tr><th>التقدير</th><th>الوصف</th><th>النسبة</th></tr>'+GR.map((g,i)=>`<tr><td>${badge(g)}</td><td>${g.n}</td><td>${ranges[i]}</td></tr>`).join('');
+
+let Q=[],title='نص ملصوق';
+const store={get(){try{return JSON.parse(localStorage.getItem('sos_results')||'[]')}catch(e){return[]}},set(v){try{localStorage.setItem('sos_results',JSON.stringify(v))}catch(e){}}};
+
+function route(){
+  let h=(location.hash||'#home').slice(1);if(!['home','quiz','results'].includes(h))h='home';
+  document.querySelectorAll('[data-v]').forEach(s=>s.hidden=s.dataset.v!==h);
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.n===h));
+  if(h==='results')renderResults();
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+
+function renderResults(){
+  const r=store();
+  if(!r.length){$('stats').innerHTML='';$('hist').innerHTML='<tr><td>لسه مفيش نتائج. <a href="#quiz">ابدأ أول اختبار</a></td></tr>';return}
+  const avg=Math.round(r.reduce((a,x)=>a+x.pct,0)/r.length),best=Math.max(...r.map(x=>x.pct));
+  $('stats').innerHTML=[['عدد الاختبارات',r.length],['المتوسط',avg+'% '+grade(avg).l],['أعلى درجة',best+'%']].map(([k,v])=>`<div class="card big"><div class="sub">${k}</div><div class="sc">${v}</div></div>`).join('');
+  $('hist').innerHTML='<tr><th>المحاضرة</th><th>الدرجة</th><th>التقدير</th><th>التاريخ</th></tr>'+r.slice().reverse().map(x=>{const g=grade(x.pct);return `<tr><td dir="auto">${esc(x.t)}</td><td>${x.s}/${x.n} (${x.pct}%)</td><td>${badge(g)} ${g.n}</td><td>${esc(x.d)}</td></tr>`}).join('');
+}
+$('clear').onclick=()=>{if(confirm('مسح كل النتائج؟')){store.set([]);renderResults()}};
+
+async function readFile(f){
+  const n=f.name.toLowerCase();
+  if(/\.(txt|md)$/.test(n))return f.text();
+  const buf=await f.arrayBuffer();
+  if(n.endsWith('.pdf')){
+    try{pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js'}catch(e){}
+    const pdf=await pdfjsLib.getDocument({data:buf}).promise;let out=[];
+    for(let i=1;i<=pdf.numPages;i++){const c=await(await pdf.getPage(i)).getTextContent();out.push(pageText(c.items))}
+    return out.join('\n');
+  }
+  const zip=await JSZip.loadAsync(buf);
+  const grab=(xml,tag,para)=>xml.split(para).map(p=>[...p.matchAll(new RegExp('<'+tag+'[^>]*>([^<]*)</'+tag+'>','g'))].map(m=>dec(m[1])).join('')).filter(Boolean).map(s=>/[.!?؟]$/.test(s.trim())?s:s+'.').join('\n');
+  if(n.endsWith('.docx'))return grab(await zip.file('word/document.xml').async('string'),'w:t','</w:p>');
+  if(n.endsWith('.pptx')){
+    const names=Object.keys(zip.files).filter(k=>/^ppt\/slides\/slide\d+\.xml$/.test(k)).sort((a,b)=>a.match(/\d+/)[0]-b.match(/\d+/)[0]);
+    let out=[];for(const k of names)out.push(grab(await zip.file(k).async('string'),'a:t','</a:p>'));
+    return out.join('\n');
+  }
+  throw new Error('نوع الملف مش مدعوم');
+}
+$('file').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  $('msg').textContent='جاري قراءة الملف...';
+  try{const t=await readFile(f);$('text').value=t.normalize('NFKC');title=f.name;$('msg').textContent='تم تحميل '+f.name+' ('+t.length+' حرف)'}
+  catch(err){$('msg').textContent='مقدرتش أقرأ الملف: '+err.message+' — جرّب تلصق النص.'}
+};
+
+function build(text,count,types){
+  const sents=[...new Set(text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(s=>s.length>=35&&s.length<=300))];
+  const freq={},orig={};
+  (text.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
+  const pool=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,80);
+  const out=[];let ti=0;
+  for(const s of shuffle(sents)){
+    if(out.length>=count)break;
+    const words=(s.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).filter(w=>pool.includes(norm(w)));
+    if(!words.length)continue;
+    const ans=words.sort((a,b)=>freq[norm(b)]-freq[norm(a)])[Math.random()*Math.min(2,words.length)|0];
+    const others=shuffle(pool.filter(k=>k!==norm(ans))).slice(0,3).map(k=>orig[k]);
+    const blank=s.replace(ans,'_____'),type=types[ti++%types.length];
+    if(type==='mcq'&&others.length===3)out.push({type,q:blank,opts:shuffle([ans,...others]),a:ans});
+    else if(type==='tf'&&others.length){const t=Math.random()<.5;out.push({type,q:t?s:s.replace(ans,others[0]),a:t?'صح':'خطأ',src:s})}
+    else out.push({type:'sh',q:blank,a:ans});
+  }
+  return out;
+}
+function render(){
+  $('qs').innerHTML=Q.map((x,i)=>{
+    let body='';
+    if(x.type==='mcq')body=x.opts.map(o=>`<label class="opt"><input type="radio" name="q${i}" value="${esc(o)}"><span dir="auto">${esc(o)}</span></label>`).join('');
+    else if(x.type==='tf')body=['صح','خطأ'].map(o=>`<label class="opt"><input type="radio" name="q${i}" value="${o}"><span>${o}</span></label>`).join('');
+    else body=`<input type="text" name="q${i}" dir="auto" placeholder="اكتب الكلمة الناقصة" style="width:100%">`;
+    const head=x.type==='tf'?'صح ولا خطأ؟':x.type==='mcq'?'اختر الإجابة الصحيحة (الفراغ):':'أكمل الفراغ:';
+    return `<div class="card q" id="c${i}"><div class="n">سؤال ${i+1} · ${head}</div><div class="t" dir="auto">${esc(x.q)}</div>${body}<div class="fb" id="f${i}"></div></div>`;
+  }).join('');
+}
+let tm=null,endAt=0;
+const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function stopTimer(){clearInterval(tm);tm=null}
+function paint(left){const el=$('timer');el.textContent='⏱ الوقت المتبقي: '+fmt(Math.max(left,0));el.style.color=left<=60?'var(--bad)':'var(--tx)'}
+function startTimer(){
+  stopTimer();const m=Math.max(0,Math.min(300,+$('mins').value||0));
+  if(!m){$('timer').hidden=true;return}
+  endAt=Date.now()+m*60000;$('timer').hidden=false;paint(m*60);
+  tm=setInterval(()=>{const left=Math.round((endAt-Date.now())/1000);paint(left);if(left<=0){stopTimer();$('timer').textContent='⏰ انتهى الوقت';$('submit').click()}},1000);
+}
+$('gen').onclick=()=>{
+  const text=$('text').value.normalize('NFKC').trim();
+  const types=[$('tMcq').checked&&'mcq',$('tTf').checked&&'tf',$('tSh').checked&&'sh'].filter(Boolean);
+  if(text.length<200){$('msg').textContent='النص قصير، ارفع محاضرة أو الصق نص أطول.';return}
+  if(!types.length){$('msg').textContent='اختار نوع أسئلة واحد على الأقل.';return}
+  Q=build(text,Math.max(3,Math.min(40,+$('count').value||10)),types);
+  if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
+  render();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
+};
+$('submit').onclick=()=>{stopTimer();
+  let score=0;
+  Q.forEach((x,i)=>{
+    const card=$('c'+i),fb=$('f'+i);
+    const val=x.type==='sh'?card.querySelector('input[type=text]').value:(card.querySelector('input:checked')||{}).value||'';
+    const ok=norm(val)===norm(x.a);if(ok)score++;
+    card.querySelectorAll('.opt').forEach(l=>{const v=l.querySelector('input').value;if(norm(v)===norm(x.a))l.classList.add('ok');else if(v===val)l.classList.add('bad')});
+    fb.className='fb '+(ok?'ok':'bad');
+    fb.textContent=ok?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+x.a+(x.type==='tf'&&x.src?' (الجملة الأصلية: '+x.src+')':'');
+  });
+  const pct=Math.round(score/Q.length*100),g=grade(pct);
+  $('result').hidden=false;
+  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div>`;
+  const r=store();r.push({t:title,s:score,n:Q.length,pct,d:new Date().toLocaleDateString('ar-EG')});store.set(r.slice(-50));
+  $('submit').hidden=true;$('result').scrollIntoView({behavior:'smooth'});
+};
+$('again').onclick=()=>{stopTimer();$('timer').hidden=true;$('quiz').hidden=true;$('setup').hidden=false;$('text').value='';$('file').value='';$('msg').textContent='';title='نص ملصوق';window.scrollTo(0,0)};
+</script>
+</body>
+</html>
