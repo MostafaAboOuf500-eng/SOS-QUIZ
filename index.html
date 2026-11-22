@@ -96,6 +96,11 @@ footer{text-align:center;color:var(--mut);padding:18px;font-size:.85rem}
       <button class="ghost" id="fixLetters" type="button">🔁 اقلب حروف الكلمات</button>
       <button class="ghost" id="fixWords" type="button">↔ اقلب ترتيب الكلمات</button>
     </div>
+    <details class="card" style="margin:12px 0"><summary>🤖 وضع الذكاء الاصطناعي (اختياري، أدق بكتير)</summary>
+      <p class="sub">بيفهم المحاضرة ويتجاهل المقدمة وأسماء المؤلفين، وبيكتب أسئلة سليمة. محتاج مفتاح OpenAI بتاعك وبيتحفظ في متصفحك بس. بيشتغل على موقعك على GitHub، مش في معاينة claude.ai.</p>
+      <input type="password" id="apiKey" placeholder="sk-..." style="width:100%" dir="ltr">
+      <label class="chk" style="margin-top:8px"><input type="checkbox" id="useAI"> استخدم الذكاء الاصطناعي</label>
+    </details>
     <button id="gen">ابدأ الاختبار</button>
   </div>
   <div id="quiz" hidden>
@@ -257,11 +262,22 @@ function build(text,count,types){
   text=text.replace(/⟦p\d+⟧/g,'\n');
   const META=/(تأليف|تاليف|إعداد|اعداد|مؤلف|المؤلفون|مراجعة|مراجعه|إشراف|اشراف|تحرير|تدقيق|مدير|وكيل|وزير|وزارة|رئيس|الدكتور|الدكتورة|أ\.\s?د|الأستاذ|الاستاذ|حقوق الطبع|جميع الحقوق|الطبعة|الإيداع|ISBN|تقديم|إهداء|اهداء|شكر وتقدير)/;
   const sents=[...new Set(text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(s=>s.length>=35&&s.length<=300&&!($('skipMeta').checked&&META.test(s))))];
+  const MK=/\(\s*(صح|خطأ|خطا)\s*\)|(صح|خطأ|خطا)\s*\(|\(\s*([✓✔√✗✘×xX])\s*\)|([✓✔√✗✘×])/;
+  const marked=[],plain=[];
+  for(const s of sents){
+    const m=MK.exec(s);
+    if(!m){plain.push(s);continue}
+    const w=m[1]||m[2]||m[3]||m[4],ok=/صح|✓|✔|√/.test(w),front=m.index<12;
+    let st=front?s.slice(m.index+m[0].length):s.slice(0,m.index),rest=front?'':s.slice(m.index+m[0].length);
+    st=st.replace(/^[\s\d٠-٩.\-–)(]+/,'').replace(/[\s\-–(]+$/,'');
+    rest=rest.replace(/^[\s\-–:()خطأصحxX✗✘×✓✔√]+/,'').trim();
+    if(st.length>=15)marked.push({type:'tf',q:st,a:ok?'صح':'خطأ',src:rest.length>10?rest:''});
+  }
   const freq={},orig={};
   (text.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
   const pool=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,80);
-  const out=[];let ti=0;
-  for(const s of shuffle(sents)){
+  const out=types.includes('tf')?shuffle(marked).slice(0,count):[];let ti=0;
+  for(const s of shuffle(plain)){
     if(out.length>=count)break;
     const words=(s.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).filter(w=>pool.includes(norm(w)));
     if(!words.length)continue;
@@ -287,6 +303,32 @@ function render(){
 const ARW=/[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g;
 $('fixLetters').onclick=()=>{const t=$('text');t.value=t.value.replace(ARW,s=>[...s].reverse().join('')).replace(/[()]/g,c=>c==='('?')':'(').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');$('msg').textContent='تم قلب حروف الكلمات. راجع النص، ولو بقى أسوأ اضغط الزرار تاني.'};
 $('fixWords').onclick=()=>{const t=$('text');t.value=t.value.split('\n').map(l=>/[\u0600-\u06FF]/.test(l)?l.split(/\s+/).reverse().join(' '):l).join('\n');$('msg').textContent='تم قلب ترتيب الكلمات في كل سطر.'};
+try{$('apiKey').value=localStorage.getItem('sos_key')||''}catch(e){}
+async function aiBuild(text,n,types){
+  const key=$('apiKey').value.trim();
+  if(!key){$('msg').textContent='اكتب مفتاح OpenAI الأول.';return[]}
+  try{localStorage.setItem('sos_key',key)}catch(e){}
+  $('msg').textContent='الذكاء الاصطناعي بيقرا المحاضرة... ممكن ياخد نص دقيقة.';
+  const kinds={mcq:'mcq (اختيار من متعدد، 4 اختيارات)',tf:'tf (صح/خطأ)',sh:'sh (أكمل، إجابة من كلمة أو اتنين)'};
+  const sys='أنت مدرّس خبير. هتاخد نص محاضرة قد يكون فيه أخطاء استخراج (حروف أو كلمات معكوسة أو ملزوقة)، صلّحها في ذهنك. تجاهل الغلاف والمقدمة وأسماء المؤلفين والمديرين والوزارة وأرقام الصفحات. لو في النص أسئلة صح/خطأ جاهزة بإجاباتها استخدمها كأسئلة سليمة بدل ما تسأل عن كلمات منها. اكتب '+n+' سؤال بعربية فصحى سليمة تقيس الفهم مش الحفظ الحرفي، وزّعهم على الأنواع: '+types.map(t=>kinds[t]).join(' و ')+'. رجّع JSON فقط بالشكل {"questions":[{"type":"mcq|tf|sh","q":"","options":[""],"answer":"","explain":""}]}. في tf الإجابة "صح" أو "خطأ". في mcq الإجابة لازم تطابق واحد من options.';
+  try{
+    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'gpt-4o-mini',response_format:{type:'json_object'},messages:[{role:'system',content:sys},{role:'user',content:text.replace(/⟦p\d+⟧/g,'\n').slice(0,24000)}]})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=JSON.parse((await r.json()).choices[0].message.content);
+    const out=(j.questions||[]).map(x=>{
+      if(!x||!x.q||!x.answer)return null;
+      if(x.type==='mcq'&&Array.isArray(x.options)&&x.options.includes(x.answer))return{type:'mcq',q:x.q,opts:shuffle(x.options),a:x.answer,src:x.explain};
+      if(x.type==='tf')return{type:'tf',q:x.q,a:/صح/.test(x.answer)?'صح':'خطأ',src:x.explain};
+      if(x.type==='sh')return{type:'sh',q:x.q,a:x.answer,src:x.explain};
+      return null;
+    }).filter(Boolean);
+    if(!out.length)throw new Error('رد فاضي');
+    $('msg').textContent='';return out;
+  }catch(e){
+    $('msg').textContent='تعذر الذكاء الاصطناعي ('+e.message+')، استخدمت الوضع العادي.';
+    return build(text,n,types);
+  }
+}
 let tm=null,endAt=0;
 const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 function stopTimer(){clearInterval(tm);tm=null}
@@ -297,12 +339,13 @@ function startTimer(){
   endAt=Date.now()+m*60000;$('timer').hidden=false;paint(m*60);
   tm=setInterval(()=>{const left=Math.round((endAt-Date.now())/1000);paint(left);if(left<=0){stopTimer();$('timer').textContent='⏰ انتهى الوقت';$('submit').click()}},1000);
 }
-$('gen').onclick=()=>{
+$('gen').onclick=async()=>{
   const text=$('text').value.normalize('NFKC').trim();
   const types=[$('tMcq').checked&&'mcq',$('tTf').checked&&'tf',$('tSh').checked&&'sh'].filter(Boolean);
   if(text.length<200){$('msg').textContent='النص قصير، ارفع محاضرة أو الصق نص أطول.';return}
   if(!types.length){$('msg').textContent='اختار نوع أسئلة واحد على الأقل.';return}
-  Q=build(text,Math.max(3,Math.min(40,+$('count').value||10)),types);
+  const n=Math.max(3,Math.min(40,+$('count').value||10));
+  Q=$('useAI').checked?await aiBuild(text,n,types):build(text,n,types);
   if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
   render();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
 };
@@ -314,7 +357,7 @@ $('submit').onclick=()=>{stopTimer();
     const ok=norm(val)===norm(x.a);if(ok)score++;
     card.querySelectorAll('.opt').forEach(l=>{const v=l.querySelector('input').value;if(norm(v)===norm(x.a))l.classList.add('ok');else if(v===val)l.classList.add('bad')});
     fb.className='fb '+(ok?'ok':'bad');
-    fb.textContent=ok?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+x.a+(x.type==='tf'&&x.src?' (الجملة الأصلية: '+x.src+')':'');
+    fb.textContent=ok?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+x.a+(x.type==='tf'&&x.src?' (ملاحظة: '+x.src+')':'');
   });
   const pct=Math.round(score/Q.length*100),g=grade(pct);
   $('result').hidden=false;
