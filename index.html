@@ -88,6 +88,14 @@ footer{text-align:center;color:var(--mut);padding:18px;font-size:.85rem}
       <label class="chk"><input type="checkbox" id="tTf" checked> صح / خطأ</label>
       <label class="chk"><input type="checkbox" id="tSh" checked> أكمل</label>
     </div>
+    <div class="row">
+      <label class="chk"><input type="checkbox" id="skipMeta" checked> تجاهل بيانات المؤلفين والمقدمة والوزارة</label>
+      <label>تخطي أول <input type="number" id="skipPages" value="0" min="0" max="50" style="width:60px"> صفحة (الغلاف والمقدمة)</label>
+    </div>
+    <div class="row">
+      <button class="ghost" id="fixLetters" type="button">🔁 اقلب حروف الكلمات</button>
+      <button class="ghost" id="fixWords" type="button">↔ اقلب ترتيب الكلمات</button>
+    </div>
     <button id="gen">ابدأ الاختبار</button>
   </div>
   <div id="quiz" hidden>
@@ -117,6 +125,14 @@ const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random(
 const norm=s=>String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim();
 const STOP=new Set(('هذا هذه ذلك التي الذي الذين على الى إلى عن في من مع كان كانت يكون تكون ايضا أيضا حيث عند بعد قبل بين كل او أو ثم لكن حتى هناك التى وهو وهي that this with from have been were which their there about would could should also into than then them they what when where while these those other such only more most some very will your').split(' '));
 const dec=s=>{const t=document.createElement('textarea');t.innerHTML=s;return t.value};
+function fixAr(t){
+  const re=new RegExp('[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+','g');
+  const w=t.normalize('NFKC').match(re)||[];
+  let f=0,r=0;
+  for(const x of w){if(x.startsWith('ال')||x.endsWith('ة'))f++;if(x.endsWith('لا')||x.startsWith('ة'))r++}
+  if(w.length<20||r<=f*1.5)return t;
+  return t.replace(re,s=>[...s].reverse().join('')).replace(/[()]/g,c=>c==='('?')':'(').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');
+}
 function pageText(items){
   const lines=[];let cur=[],py=null;
   const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
@@ -215,8 +231,8 @@ async function readFile(f){
   if(n.endsWith('.pdf')){
     try{pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js'}catch(e){}
     const pdf=await pdfjsLib.getDocument({data:buf}).promise;let out=[];
-    for(let i=1;i<=pdf.numPages;i++){const c=await(await pdf.getPage(i)).getTextContent();out.push(pageText(c.items))}
-    return out.join('\n');
+    for(let i=1;i<=pdf.numPages;i++){const c=await(await pdf.getPage(i)).getTextContent();out.push('⟦p'+i+'⟧\n'+pageText(c.items))}
+    return fixAr(out.join('\n'));
   }
   const zip=await JSZip.loadAsync(buf);
   const grab=(xml,tag,para)=>xml.split(para).map(p=>[...p.matchAll(new RegExp('<'+tag+'[^>]*>([^<]*)</'+tag+'>','g'))].map(m=>dec(m[1])).join('')).filter(Boolean).map(s=>/[.!?؟]$/.test(s.trim())?s:s+'.').join('\n');
@@ -236,7 +252,11 @@ $('file').onchange=async e=>{
 };
 
 function build(text,count,types){
-  const sents=[...new Set(text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(s=>s.length>=35&&s.length<=300))];
+  const skip=Math.max(0,+$('skipPages').value||0);
+  if(skip>0){const parts=text.split(/⟦p\d+⟧/);if(parts.length>1)text=parts.slice(skip+1).join('\n')}
+  text=text.replace(/⟦p\d+⟧/g,'\n');
+  const META=/(تأليف|تاليف|إعداد|اعداد|مؤلف|المؤلفون|مراجعة|مراجعه|إشراف|اشراف|تحرير|تدقيق|مدير|وكيل|وزير|وزارة|رئيس|الدكتور|الدكتورة|أ\.\s?د|الأستاذ|الاستاذ|حقوق الطبع|جميع الحقوق|الطبعة|الإيداع|ISBN|تقديم|إهداء|اهداء|شكر وتقدير)/;
+  const sents=[...new Set(text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(s=>s.length>=35&&s.length<=300&&!($('skipMeta').checked&&META.test(s))))];
   const freq={},orig={};
   (text.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
   const pool=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,80);
@@ -264,6 +284,9 @@ function render(){
     return `<div class="card q" id="c${i}"><div class="n">سؤال ${i+1} · ${head}</div><div class="t" dir="auto">${esc(x.q)}</div>${body}<div class="fb" id="f${i}"></div></div>`;
   }).join('');
 }
+const ARW=/[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g;
+$('fixLetters').onclick=()=>{const t=$('text');t.value=t.value.replace(ARW,s=>[...s].reverse().join('')).replace(/[()]/g,c=>c==='('?')':'(').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');$('msg').textContent='تم قلب حروف الكلمات. راجع النص، ولو بقى أسوأ اضغط الزرار تاني.'};
+$('fixWords').onclick=()=>{const t=$('text');t.value=t.value.split('\n').map(l=>/[\u0600-\u06FF]/.test(l)?l.split(/\s+/).reverse().join(' '):l).join('\n');$('msg').textContent='تم قلب ترتيب الكلمات في كل سطر.'};
 let tm=null,endAt=0;
 const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 function stopTimer(){clearInterval(tm);tm=null}
