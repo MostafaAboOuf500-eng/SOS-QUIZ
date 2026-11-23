@@ -78,6 +78,19 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--pri);box
 section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media(max-width:640px){header{position:fixed;top:auto;bottom:0;left:0;right:0;border-top:1px solid var(--bd);border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}nav{justify-content:space-around;flex-wrap:nowrap;padding:6px 8px}nav b{display:none}main{padding-bottom:96px}footer{margin-bottom:70px}.timer{top:calc(env(safe-area-inset-top,0px) + 8px)}}
+.chip{font-weight:700;font-size:.9rem;padding:4px 10px;border-radius:999px;border:1px solid var(--bd);background:var(--card);white-space:nowrap}
+.pbar,.xpbar{height:8px;background:color-mix(in srgb,var(--pri) 14%,transparent);border-radius:99px;overflow:hidden;margin:0 0 12px}
+.xpbar{margin:10px auto 0;max-width:260px}
+.f{width:100%;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:8px 10px;font:inherit;margin-bottom:8px}
+.msgs{height:55vh;overflow-y:auto;border:1px solid var(--bd);border-radius:14px;padding:10px;background:var(--card);margin-bottom:10px}
+.m{margin:6px 0;padding:6px 10px;border-radius:12px;background:color-mix(in srgb,var(--mut) 12%,transparent)}
+.m.me{background:color-mix(in srgb,var(--pri) 16%,transparent)}
+.rp{padding:0 6px;box-shadow:none!important;border:0!important;font-size:.8rem}
+@media(max-width:640px){nav a{padding:6px 6px;font-size:.8rem}#chip{display:none}}
+.pbar i,.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pri),#7CFFB0);border-radius:99px;transition:width .35s cubic-bezier(.22,1,.36,1)}
+.cf{position:fixed;top:-30px;font-size:1.6rem;z-index:99;pointer-events:none;animation:fall 2.2s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+.opt:has(input:checked){border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -87,7 +100,9 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
   <a href="#home" data-n="home">الرئيسية</a>
   <a href="#quiz" data-n="quiz">اختبار جديد</a>
   <a href="#results" data-n="results">نتائجي</a>
+  <a href="#board" data-n="board">🏆 المتصدرين</a><a href="#chat" data-n="chat">💬 الشات</a><a href="#account" data-n="account">👤 حسابي</a>
   <button id="themeBtn" class="ghost" type="button" title="الوضع الليلي">🌙</button>
+  <span class="chip" id="chip" title="الأيام المتتالية · المستوى"></span>
 </nav></header>
 <main>
 
@@ -135,6 +150,7 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
     <button id="gen">ابدأ الاختبار</button>
   </div>
   <div id="quiz" hidden>
+    <div class="pbar"><i id="pfill"></i></div>
     <div class="timer" id="timer" hidden></div>
     <div id="qs"></div>
     <div class="card big" id="result" hidden></div>
@@ -148,9 +164,13 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
   <div class="card" style="overflow-x:auto"><table class="tbl" id="hist"></table></div>
   <button class="ghost" id="clear">مسح النتائج</button>
 </section>
+<section data-v="board" hidden><h2>🏆 المتصدرين</h2><p class="sub">أعلى النقاط في المنصة. كل اختبار بتحله بيقرّبك من المركز الأول.</p><label class="chk"><input type="checkbox" id="myroom"> غرفتي بس (نفس مرحلتي وكليتي)</label><div class="card" style="overflow-x:auto;margin-top:10px"><table class="tbl" id="bdy"></table></div></section>
+<section data-v="chat" hidden><h2>💬 الشات</h2><p class="sub">غرفتك: <b id="roomname">-</b>. اسم مستعار فقط، وممنوع الروابط وأرقام التليفونات. اضغط 🚩 للإبلاغ عن أي رسالة مسيئة.</p><div id="chatbox"></div></section>
+<section data-v="account" hidden id="acc"></section>
 </main>
 <footer>SOS · منصة الاختبارات الذكية</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
@@ -243,10 +263,11 @@ let Q=[],title='نص ملصوق';
 const store={get(){try{return JSON.parse(localStorage.getItem('sos_results')||'[]')}catch(e){return[]}},set(v){try{localStorage.setItem('sos_results',JSON.stringify(v))}catch(e){}}};
 
 function route(){
-  let h=(location.hash||'#home').slice(1);if(!['home','quiz','results'].includes(h))h='home';
+  let h=(location.hash||'#home').slice(1);if(!['home','quiz','results','board','chat','account'].includes(h))h='home';
   document.querySelectorAll('[data-v]').forEach(s=>s.hidden=s.dataset.v!==h);
   document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.n===h));
   if(h==='results')renderResults();
+  try{if(h==='board')loadBoard();if(h==='chat')openChat();if(h==='account')renderAcc();if(h!=='chat'&&window.CH){sb.removeChannel(window.CH);window.CH=null}}catch(e){}
   window.scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
@@ -364,6 +385,99 @@ const root=document.documentElement;
 function setTheme(t){root.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('sos_theme',t)}catch(e){}}
 try{setTheme(localStorage.getItem('sos_theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))}catch(e){setTheme('light')}
 $('themeBtn').onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
+const S={get(){try{return JSON.parse(localStorage.getItem('sos_stats')||'{}')}catch(e){return{}}},set(v){try{localStorage.setItem('sos_stats',JSON.stringify(v))}catch(e){}}};
+const lvl=xp=>Math.floor(xp/100)+1;
+function chip(){const s=S.get();$('chip').textContent='🔥'+(s.streak||0)+' · ⭐'+lvl(s.xp||0)}
+function boom(){for(let i=0;i<36;i++){const e=document.createElement('span');e.className='cf';e.textContent=['🎉','✨','⭐','💚'][i%4];e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}}
+function reward(score,pct){
+  const s=S.get(),t=new Date().toISOString().slice(0,10);let xp=score*10+(pct>=80?20:0);
+  if(s.last!==t){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);s.streak=s.last===y?(s.streak||0)+1:1;s.last=t;xp+=10}
+  const before=lvl(s.xp||0);s.xp=(s.xp||0)+xp;S.set(s);chip();
+  if(pct>=80)boom();syncResult(score);
+  const up=lvl(s.xp)>before?'<div class="sc">🎉 ترقيت للمستوى '+lvl(s.xp)+'!</div>':'';
+  const msg=pct>=90?'أسطورة! كمّل كده 🔥':pct>=70?'شغل جامد، قريب جدا من القمة 💪':pct>=50?'بداية كويسة، جرّب تاني وهتتحسن 👌':'متزعلش، الأخطاء هي أسرع طريق للفهم 🌱';
+  return '<div class="sub" style="margin:8px 0 0">+'+xp+' نقطة XP · '+msg+'</div>'+up+'<div class="xpbar"><i style="width:'+(s.xp%100)+'%"></i></div>';
+}
+function upd(){let n=0;Q.forEach((x,i)=>{const c=$('c'+i);if(c&&(c.querySelector('input:checked')||(c.querySelector('input[type=text]')||{}).value))n++});$('pfill').style.width=(Q.length?n/Q.length*100:0)+'%'}
+$('qs').addEventListener('input',upd);
+chip();
+const SB_URL='https://nxqtsuvexcppephnqijg.supabase.co',SB_KEY='sb_publishable_D2b7vr5CiJ6E3_BuUiAoAw_yTEMB2n5';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+let ME=null,PROF=null;
+const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['طب','هندسة','صيدلة','علوم','تجارة','حقوق','آداب','تربية','حاسبات','علمي علوم','علمي رياضة','أدبي','أخرى'];
+const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
+const roomOf=p=>p.stage+'|'+p.year+'|'+p.field;
+async function loadMe(){
+  const {data}=await sb.auth.getSession();ME=data.session?data.session.user:null;PROF=null;
+  if(ME){const r=await sb.from('profiles').select('*').eq('id',ME.id).maybeSingle();PROF=r.data}
+  renderAcc();
+}
+sb.auth.onAuthStateChange(()=>setTimeout(loadMe,0));
+async function auth(m){
+  const email=$('em').value.trim(),password=$('pw').value;$('am').textContent='...';
+  const r=m==='in'?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password});
+  if(r.error){$('am').textContent=r.error.message;return}
+  if(m==='up'&&!r.data.session)$('am').textContent='تمام! افتح إيميلك وأكّد الحساب وبعدين سجّل دخول.';
+}
+function renderAcc(){
+  const el=$('acc');if(!el)return;
+  if(!ME){
+    el.innerHTML='<h2>👤 حسابي</h2><p class="sub">سجّل عشان تدخل المتصدرين والشات وتحفظ نقاطك.</p><div class="card"><input class="f" id="em" placeholder="الإيميل" dir="ltr"><input class="f" type="password" id="pw" placeholder="الباسورد (6 حروف على الأقل)" dir="ltr"><div class="row"><button id="login">دخول</button><button class="ghost" id="signup">حساب جديد</button></div><div class="msg" id="am"></div></div>';
+    $('login').onclick=()=>auth('in');$('signup').onclick=()=>auth('up');return;
+  }
+  if(!PROF){
+    el.innerHTML='<h2>كمّل بياناتك</h2><div class="card"><p class="sub">الغرفة بتتحدد بمرحلتك وسنتك وكليتك، ومش هتقدر تغيّرها بعدين.</p><input class="f" id="nk" maxlength="20" placeholder="اسم مستعار (3 لـ 20 حرف، مش اسمك الحقيقي)"><div class="row"><select id="sg">'+opts(STAGES)+'</select><select id="yr">'+opts(YEARS)+'</select><select id="fl">'+opts(FIELDS)+'</select></div><button id="mk">حفظ</button><div class="msg" id="am"></div></div>';
+    $('mk').onclick=async()=>{const r=await sb.rpc('create_profile',{p_nick:$('nk').value,p_stage:$('sg').value,p_year:$('yr').value,p_field:$('fl').value});if(r.error)$('am').textContent=/duplicate|unique/.test(r.error.message)?'الاسم ده مستخدم، اختار غيره':'تعذر الحفظ: '+r.error.message;else loadMe()};
+    return;
+  }
+  const pro=PROF.plan==='pro'&&PROF.plan_until&&new Date(PROF.plan_until)>new Date();
+  el.innerHTML='<h2>أهلا '+esc(PROF.nickname)+' 👋</h2><div class="card"><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p><p>⭐ المستوى '+lvl(PROF.xp)+' · '+PROF.xp+' نقطة · 🔥 '+PROF.streak+' يوم</p><p>الباقة: <b>'+(pro?'Pro حتى '+new Date(PROF.plan_until).toLocaleDateString('ar-EG'):'مجانية')+'</b></p></div><div class="card"><b>كود الاشتراك</b><div class="row"><input class="f" id="cd" placeholder="SOS-XXXX-XXXX" dir="ltr" style="flex:1;margin:0"><button id="rd">فعّل</button></div><div class="msg" id="am"></div></div><button class="ghost" id="lo">تسجيل خروج</button>';
+  $('rd').onclick=async()=>{const r=await sb.rpc('redeem_code',{p_code:$('cd').value});if(r.error)$('am').textContent='الكود غلط أو مستخدم قبل كده';else{$('am').textContent='✅ اتفعّل الاشتراك';loadMe()}};
+  $('lo').onclick=()=>sb.auth.signOut();
+}
+function syncResult(score){
+  if(!PROF)return;
+  sb.rpc('submit_result',{p_score:score,p_total:Q.length}).then(r=>{
+    const el=document.createElement('div');el.className='sub';
+    el.textContent=r.error?('تعذر التسجيل في المتصدرين: '+(/too fast/.test(r.error.message)?'استنى دقيقة بين كل اختبارين':r.error.message)):'🏆 اتسجلت في المتصدرين: +'+r.data+' نقطة';
+    $('result').appendChild(el);loadMe();
+  });
+}
+async function loadBoard(){
+  const el=$('bdy');el.innerHTML='<tr><td>جاري التحميل...</td></tr>';
+  let q=sb.from('leaderboard').select('*').order('xp',{ascending:false}).limit(50);
+  if($('myroom').checked&&PROF)q=q.eq('stage',PROF.stage).eq('year',PROF.year).eq('field',PROF.field);
+  const {data,error}=await q;
+  if(error){el.innerHTML='<tr><td>تعذر التحميل</td></tr>';return}
+  el.innerHTML=data.length?'<tr><th>#</th><th>الاسم</th><th>الغرفة</th><th>النقاط</th></tr>'+data.map((r,i)=>'<tr'+(PROF&&r.nickname===PROF.nickname?' style="font-weight:700;color:var(--pri)"':'')+'><td>'+(['🥇','🥈','🥉'][i]||i+1)+'</td><td>'+esc(r.nickname)+'</td><td>'+esc(r.year+' · '+r.field)+'</td><td>'+r.xp+' ⭐'+lvl(r.xp)+'</td></tr>').join(''):'<tr><td>لسه مفيش حد. كون أنت الأول! 🏆</td></tr>';
+}
+$('myroom').onchange=loadBoard;
+function addMsg(m){
+  const box=$('msgs');if(!box||box.querySelector('[data-id="'+m.id+'"]'))return;
+  const mine=PROF&&m.user_id===PROF.id,d=document.createElement('div');
+  d.className='m'+(mine?' me':'');d.dataset.id=m.id;
+  d.innerHTML='<b>'+esc(m.nickname)+'</b> <span dir="auto">'+esc(m.body)+'</span>'+(mine?'':' <button class="ghost rp" title="إبلاغ">🚩</button>');
+  const b=d.querySelector('.rp');if(b)b.onclick=async()=>{await sb.from('reports').insert({message_id:m.id});b.textContent='✓';b.disabled=true};
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+}
+async function send(){
+  const i=$('mi'),body=i.value.trim();if(!body)return;
+  const r=await sb.from('messages').insert({room:roomOf(PROF),user_id:PROF.id,nickname:PROF.nickname,body}).select().single();
+  $('cm').textContent=r.error?(/slow/.test(r.error.message)?'براحة شوية 😅':'الرسالة مرفوضة (ممنوع الروابط وأرقام التليفونات)'):'';
+  if(!r.error){i.value='';addMsg(r.data)}
+}
+async function openChat(){
+  const el=$('chatbox');
+  if(window.CH){sb.removeChannel(window.CH);window.CH=null}
+  if(!PROF){el.innerHTML='<div class="card">لازم تسجّل وتكمّل بياناتك الأول. <a href="#account">حسابي</a></div>';return}
+  const room=roomOf(PROF);$('roomname').textContent=room.replace(/\|/g,' · ');
+  el.innerHTML='<div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>';
+  const r=await sb.from('messages').select('*').eq('room',room).order('id',{ascending:false}).limit(50);
+  (r.data||[]).reverse().forEach(addMsg);
+  window.CH=sb.channel('room-'+Date.now()).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{if(p.new.room===room)addMsg(p.new)}).subscribe();
+  $('ms').onclick=send;$('mi').onkeydown=e=>{if(e.key==='Enter')send()};
+}
+route();
 let tm=null,endAt=0;
 const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 function stopTimer(){clearInterval(tm);tm=null}
@@ -382,7 +496,7 @@ $('gen').onclick=async()=>{
   const n=Math.max(3,Math.min(40,+$('count').value||10));
   Q=$('useAI').checked?await aiBuild(text,n,types):build(text,n,types);
   if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
-  render();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
+  render();upd();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
 };
 $('submit').onclick=()=>{stopTimer();
   let score=0;
@@ -396,7 +510,7 @@ $('submit').onclick=()=>{stopTimer();
   });
   const pct=Math.round(score/Q.length*100),g=grade(pct);
   $('result').hidden=false;
-  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div>`;
+  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div>${reward(score,pct)}`;
   const r=store();r.push({t:title,s:score,n:Q.length,pct,d:new Date().toLocaleDateString('ar-EG')});store.set(r.slice(-50));
   $('submit').hidden=true;$('result').scrollIntoView({behavior:'smooth'});
 };
