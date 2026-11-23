@@ -148,6 +148,7 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
     <details class="card" style="margin:12px 0"><summary>🤖 وضع الذكاء الاصطناعي (اختياري، أدق بكتير)</summary>
       <p class="sub">بيفهم المحاضرة ويتجاهل المقدمة وأسماء المؤلفين، وبيكتب أسئلة سليمة. محتاج مفتاح OpenAI بتاعك وبيتحفظ في متصفحك بس. بيشتغل على موقعك على GitHub، مش في معاينة claude.ai.</p>
       <input type="password" id="apiKey" placeholder="sk-..." style="width:100%" dir="ltr">
+      <div class="row"><button class="ghost" type="button" id="clrKey">امسح المفتاح</button><span class="sub" style="font-size:.82rem">تحذير: المفتاح بيتحفظ في متصفحك ومش آمن للإطلاق العام. استخدمه على جهازك بس وامسحه بعدين.</span></div>
       <label class="chk" style="margin-top:8px"><input type="checkbox" id="useAI"> استخدم الذكاء الاصطناعي</label>
     </details>
     <button id="gen">ابدأ الاختبار</button>
@@ -190,9 +191,34 @@ function fixAr(t){
   let f=0,r=0;
   for(const x of w){if(x.startsWith('ال')||x.endsWith('ة'))f++;if(x.endsWith('لا')||x.startsWith('ة'))r++}
   if(w.length<20||r<=f*1.5)return t;
-  return t.replace(re,s=>[...s].reverse().join('')).replace(/[()]/g,c=>c==='('?')':'(').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');
+  return t.replace(re,s=>[...s].reverse().join('')).replace(/\)([^()\n]*[\u0600-\u06FF][^()\n]*)\(/g,'($1)').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');
 }
 function pageText(items){
+  const lines=[];let cur=[],py=null;
+  const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6)flush();
+    cur.push(x.str);
+    if(y!==null)py=y;
+    if(x.hasEOL)flush();
+  }
+  flush();
+  const AR=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/,LT=/[A-Za-z0-9]/;
+  return lines.map(l=>{
+    if(!AR.test(l.join('')))return l.join('');
+    const runs=[];let prev=null;
+    for(const s of l){
+      const t=AR.test(s)?'R':LT.test(s)?'L':(prev||'R');
+      if(runs.length&&runs[runs.length-1].t===t)runs[runs.length-1].a.push(s);else runs.push({t,a:[s]});
+      prev=t;
+    }
+    return runs.reverse().map(r=>r.t==='R'?r.a.reverse().join(''):r.a.join('')).join('')
+      .replace(/([\u0600-\u06FF])([A-Za-z0-9])/g,'$1 $2').replace(/([A-Za-z0-9])([\u0600-\u06FF])/g,'$1 $2').replace(/[ \t]{2,}/g,' ');
+  }).join('\n');
+}
+function pageTextOld4(items){
   const lines=[];let cur=[],py=null;
   const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
   for(const x of items){
@@ -307,11 +333,129 @@ async function readFile(f){
 $('file').onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
   $('msg').textContent='جاري قراءة الملف...';
-  try{const t=await readFile(f);$('text').value=t.normalize('NFKC');title=f.name;$('msg').textContent='تم تحميل '+f.name+' ('+t.length+' حرف)'}
+  try{const t=await readFile(f);$('text').value=t.normalize('NFKC');title=f.name;if(t.replace(/\s|⟦p\d+⟧/g,'').length<50){$('msg').textContent='الملف مفيهوش نص كفاية (ممكن يكون صور أو سكان). جرّب Word أو الصق النص.';return}$('msg').textContent='تم تحميل '+f.name+' ('+t.length+' حرف)'}
   catch(err){$('msg').textContent='مقدرتش أقرأ الملف: '+err.message+' — جرّب تلصق النص.'}
 };
 
+/*GEN_START*/
+let DONE=false;
+const same=(a,b)=>{const f=s=>norm(s).replace(/[^\p{L}\p{N}\s]/gu,'').replace(/\s+/g,' ').replace(/^ال/,'').trim();return f(b)!==''&&f(a)===f(b)};
+const TOK=/[\p{L}\p{M}\p{N}]+/gu;
+const META_RE=/(تأليف|تاليف|إعداد|اعداد|مؤلف|المؤلفون|مراجعة|مراجعه|إشراف|اشراف|تحرير|تدقيق|مدير|وكيل|وزير|وزارة|رئيس|الدكتور|الدكتورة|أ\.\s?د|الأستاذ|الاستاذ|حقوق الطبع|جميع الحقوق|الطبعة|الإيداع|تقديم|إهداء|اهداء|شكر وتقدير|copyright|all rights reserved|prepared by|written by|isbn)/i;
+const DEF=/(هو|هي|هم|يعرف|تعرف|تعني|يعني|يعد|يعتبر|تعتبر|يتكون|تتكون|يسمى|تسمى|يهدف|تهدف|يؤدي|تؤدي|ينتج|بسبب|نتيجة|\bis\b|\bare\b|\bmeans\b|refers to|defined as|consists of|called|because|results in|leads to)/i;
+const MK2=/\(\s*(صح|خطأ|خطا)\s*\)|(صح|خطأ|خطا)\s*\(|\(\s*([✓✔√✗✘×xX])\s*\)|([✓✔√✗✘×])/;
+function cleanLines(text){
+  const lines=text.split('\n').map(l=>l.trim()),cnt={};
+  lines.forEach(l=>{const k=norm(l);if(k&&l.length<90)cnt[k]=(cnt[k]||0)+1});
+  const lens=lines.filter(Boolean).map(l=>l.length).sort((a,b)=>a-b),med=lens[lens.length>>1]||0;
+  return lines.filter(l=>{
+    if(!l)return true;
+    if(/صح|خطأ|✓|✗/.test(l))return true;
+    if(cnt[norm(l)]>=3&&l.length<90)return false;
+    if(/^[\d\s.\-–—\/|·•]+$/.test(l))return false;
+    if(/^(page|slide|صفحة|شريحة)\s*\d+/i.test(l))return false;
+    if(l.length<Math.min(60,med*.6)&&!/[.!?؟:)\]]$/.test(l))return false;
+    return true;
+  }).join('\n');
+}
+function repTok(s,ans,rep){
+  const re=/[\p{L}\p{M}\p{N}]+/gu,k=norm(ans);let m;
+  while((m=re.exec(s))){if(norm(m[0])===k)return s.slice(0,m.index)+rep+s.slice(m.index+m[0].length)}
+  return s;
+}
+function sanitize(t){
+  return String(t).normalize('NFKC')
+    .replace(/\(cid:\d+\)/gi,'')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF\uFFFC\uFFFD\uE000-\uF8FF]/g,'')
+    .replace(/(\p{L})-\n(\p{Ll})/gu,'$1$2')
+    .replace(/https?:\/\/\S+|www\.\S+|\S+@\S+\.\S+/g,' ')
+    .replace(/[ \t]{2,}/g,' ');
+}
+function textQuality(t){
+  const tk=t.match(TOK)||[];if(tk.length<30)return{ok:true};
+  const arab=tk.filter(w=>/[\u0600-\u06FF]/.test(w));
+  if(arab.length>30){
+    const single=arab.filter(w=>w.length===1&&!/^[\u0648\u0641\u0628\u0643\u0644]$/.test(w)).length;
+    if(single/arab.length>.12)return{ok:false,why:'حروف عربية مفصولة'};
+    if(arab.filter(w=>w.length>18).length/arab.length>.08)return{ok:false,why:'كلمات ملزوقة في بعض'};
+    let f=0,r=0;arab.forEach(x=>{if(x.startsWith('ال')||x.endsWith('ة'))f++;if(x.endsWith('لا')||x.startsWith('ة'))r++});
+    if(r>f*1.2)return{ok:false,why:'ترتيب الحروف معكوس'};
+  }
+  const sym=(t.match(/[^\p{L}\p{N}\s.,;:!?()\-–'"،؛؟%\/+=*<>_\[\]{}…✓✗✔✘]/gu)||[]).length;
+  if(sym/t.length>.06)return{ok:false,why:'رموز غريبة كتير'};
+  return{ok:true};
+}
+const BAD_Q=/(\u27e6|\u27e7|cid:|undefined|NaN|\[object|\{\{|\}\}|حسب النص|كما ورد|في الفقرة|according to (the )?(text|passage|lecture)|all of the above|none of the above|كل ما سبق|لا شيء مما سبق)/i;
+function validQ(q,strictMath){
+  if(!q||!q.q||!['mcq','tf','sh'].includes(q.type))return false;
+  const s=String(q.q);
+  if(s.length<20||s.length>300||BAD_Q.test(s))return false;
+  if(strictMath&&/[=∑∫√±÷^{}\\|]/.test(s))return false;
+  if((s.match(/\p{L}/gu)||[]).length/s.length<.6)return false;
+  if(q.a===undefined||String(q.a).trim()==='')return false;
+  if(q.type==='mcq'&&(!Array.isArray(q.opts)||q.opts.length!==4||q.opts.some(o=>!o||String(o).length>90||BAD_Q.test(String(o)))))return false;
+  return true;
+}
+const QRULES=' قواعد جودة الصياغة: اكتب السؤال كسؤال طبيعي مكتمل (ما/لماذا/كيف/ما الفرق بين/أي مما يلي) ويُفهم لوحده بدون الرجوع للنص، ولا تستخدم عبارات زي "حسب النص" أو "كما ورد". سؤال واحد = فكرة واحدة. في mcq الخيارات الثلاثة الخاطئة لازم تكون معقولة ومن نفس النوع والمجال وبطول متقارب، وممنوع "كل ما سبق" و"لا شيء مما سبق". وزّع مكان الإجابة الصحيحة عشوائيا. تجاهل أي معادلات أو رموز أو أرقام صفحات أو نصوص مكسورة، ولا تسأل عن أرقام عشوائية أو شكل الملف أو أسماء أشخاص. في sh الإجابة مصطلح محدد قصير بدون لبس. اجعل السؤال من 15 إلى 40 كلمة.';
+$('text').addEventListener('input',()=>{window.FORCE=false});
 function build(text,count,types){
+  const skip=Math.max(0,+$('skipPages').value||0);
+  if(skip>0){const parts=text.split(/⟦p\d+⟧/);if(parts.length>2)text=parts.slice(Math.min(skip,parts.length-2)+1).join('\n')}
+  text=cleanLines(sanitize(text.replace(/⟦p\d+⟧/g,'\n')));
+  const dropMeta=$('skipMeta').checked;
+  const raw=text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim());
+  const freq={},orig={};
+  (text.match(TOK)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
+  const ranked=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]),generic=new Set(ranked.slice(0,3)),pool=ranked.slice(0,200);
+  const marked=[],cands=[];
+  raw.forEach((s,idx)=>{
+    if(s.length<35||s.length>320)return;
+    if(dropMeta&&META_RE.test(s))return;
+    const m=MK2.exec(s);
+    if(m){
+      const w=m[1]||m[2]||m[3]||m[4],ok=/صح|✓|✔|√/.test(w),front=m.index<12;
+      let st=front?s.slice(m.index+m[0].length):s.slice(0,m.index),rest=front?'':s.slice(m.index+m[0].length);
+      st=st.replace(/^[\s\d٠-٩.\-–)(]+/,'').replace(/[\s\-–(]+$/,'');
+      rest=rest.replace(/^[\s\-–:()خطأصحxX✗✘×✓✔√]+/,'').trim();
+      if(st.length>=15&&(st.match(TOK)||[]).length>=4)marked.push({type:'tf',q:st,a:ok?'صح':'خطأ',src:rest.length>10?rest:''});
+      return;
+    }
+    const w=s.match(TOK)||[];
+    if(w.length<6||w.length>45)return;
+    if((s.match(/\p{L}/gu)||[]).length/s.length<.6)return;
+    if(/[=∑∫√±÷^{}\\|<>]/.test(s)||(s.match(/\d/g)||[]).length/s.length>.15)return;
+    if(/[,،:؛\-–]$/.test(s)||/^[a-z]/.test(s))return;
+    const toks=w.map(norm);
+    const cs=w.filter((x,i)=>{const k=norm(x);return freq[k]&&!generic.has(k)&&i>1&&toks.filter(t=>t===k).length===1});
+    if(!cs.length)return;
+    cands.push({s,idx,w,toks,cs,score:(DEF.test(s)?3:0)+(w.length>=8&&w.length<=30?2:0)+(/\d/.test(s)?1:0)+Math.min(cs.length,3)*.5});
+  });
+  const val=k=>Math.min(k.length,10)/5+(freq[k]>=2?1.5:0)-(freq[k]>15?1:0)-(k.startsWith('و')&&k.length>4?1.5:0);
+  const mq=types.includes('tf')?marked.slice(0,count):[];
+  const gen=[],seen=[];
+  function mk(c,type,n){
+    const ans=c.cs.slice().sort((a,b)=>val(norm(b))-val(norm(a)))[0],k=norm(ans);
+    const dis=pool.filter(p=>p!==k&&!c.toks.includes(p)&&Math.abs(orig[p].length-ans.length)<=4&&orig[p].startsWith('ال')===ans.startsWith('ال')&&!k.includes(p)&&!p.includes(k)).sort((a,b)=>Math.abs(orig[a].length-ans.length)-Math.abs(orig[b].length-ans.length)||freq[b]-freq[a]).slice(0,3).map(p=>orig[p]);
+    if(type==='mcq'&&dis.length===3)return{type,q:repTok(c.s,ans,'_____'),opts:shuffle([ans,...dis]),a:ans};
+    if(type==='tf'&&dis.length){const t=n%2===0;return{type,q:t?c.s:repTok(c.s,ans,dis[0]),a:t?'صح':'خطأ',src:t?'':'الجملة الأصلية: '+c.s}}
+    if(type==='sh')return{type,q:repTok(c.s,ans,'_____'),a:ans};
+    return null;
+  }
+  for(const c of cands.sort((a,b)=>b.score-a.score||a.idx-b.idx)){
+    if(gen.length>=Math.max(0,count-mq.length))break;
+    const set=new Set(c.toks.filter(t=>freq[t]));
+    if(seen.some(o=>{let i=0;set.forEach(t=>{if(o.has(t))i++});return i/(set.size+o.size-i)>.55}))continue;
+    const pref=types[gen.length%types.length];let q=null;
+    for(const t of [pref,...types.filter(t=>t!==pref)]){q=mk(c,t,gen.length);if(q)break}
+    if(!q)continue;
+    q._i=c.idx;gen.push(q);seen.push(set);
+  }
+  gen.sort((a,b)=>a._i-b._i);
+  return [...mq,...gen].filter(q=>validQ(q,true));
+}
+$('clrKey').onclick=()=>{try{localStorage.removeItem('sos_key')}catch(e){}$('apiKey').value='';$('msg').textContent='اتمسح المفتاح من متصفحك.'};
+/*GEN_END*/
+function buildLegacy(text,count,types){
   const skip=Math.max(0,+$('skipPages').value||0);
   if(skip>0){const parts=text.split(/⟦p\d+⟧/);if(parts.length>1)text=parts.slice(skip+1).join('\n')}
   text=text.replace(/⟦p\d+⟧/g,'\n');
@@ -356,10 +500,52 @@ function render(){
   }).join('');
 }
 const ARW=/[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g;
-$('fixLetters').onclick=()=>{const t=$('text');t.value=t.value.replace(ARW,s=>[...s].reverse().join('')).replace(/[()]/g,c=>c==='('?')':'(').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');$('msg').textContent='تم قلب حروف الكلمات. راجع النص، ولو بقى أسوأ اضغط الزرار تاني.'};
+$('fixLetters').onclick=()=>{const t=$('text');t.value=t.value.replace(ARW,s=>[...s].reverse().join('')).replace(/\)([^()\n]*[\u0600-\u06FF][^()\n]*)\(/g,'($1)').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');$('msg').textContent='تم قلب حروف الكلمات. راجع النص، ولو بقى أسوأ اضغط الزرار تاني.'};
 $('fixWords').onclick=()=>{const t=$('text');t.value=t.value.split('\n').map(l=>/[\u0600-\u06FF]/.test(l)?l.split(/\s+/).reverse().join(' '):l).join('\n');$('msg').textContent='تم قلب ترتيب الكلمات في كل سطر.'};
 try{$('apiKey').value=localStorage.getItem('sos_key')||''}catch(e){}
 async function aiBuild(text,n,types){
+  const key=$('apiKey').value.trim();
+  if(!key){$('msg').textContent='اكتب مفتاح OpenAI الأول.';return[]}
+  try{localStorage.setItem('sos_key',key)}catch(e){}
+  $('msg').textContent='الذكاء الاصطناعي بيقرا المحاضرة... ممكن ياخد نص دقيقة.';
+  const kinds={mcq:'mcq (اختيار من متعدد، 4 اختيارات مختلفة)',tf:'tf (صح/خطأ)',sh:'sh (أكمل، الإجابة كلمة أو كلمتين)'};
+  const src=cleanLines(sanitize(text.replace(/⟦p\d+⟧/g,'\n'))).slice(0,24000);
+  const sys='أنت مدرّس خبير. استخدم محتوى المحاضرة المرفقة فقط كمصدر وحيد للحقائق، ولا تضف أي معلومة من خارجها. تجاهل العناوين والغلاف وأسماء المؤلفين والمديرين والوزارة وأرقام الصفحات وأي نص غير تعليمي. النص قد يكون فيه أخطاء استخراج (حروف أو كلمات مبعترة) فافهمه صح. لو فيه أسئلة صح/خطأ جاهزة بإجاباتها استخدمها. اكتب حتى '+n+' سؤال واضح ومباشر بعربية سليمة يقيس الفهم مش الحفظ الحرفي، بدون تكرار. لو المحاضرة مش كفاية رجّع أقل ولا تألّف. لكل سؤال رجّع حقل evidence: عبارة قصيرة (3 إلى 12 كلمة) منقولة حرفيا من المحاضرة تثبت الإجابة. الأنواع المسموحة: '+types.map(t=>kinds[t]).join(' و ')+'. رجّع JSON فقط بالشكل {"questions":[{"type":"mcq|tf|sh","q":"","options":[""],"answer":"","evidence":"","explain":""}]}. في tf الإجابة "صح" أو "خطأ". في mcq الإجابة لازم تطابق خيار واحد بالظبط.';
+  try{
+    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'gpt-4o-mini',temperature:0.3,response_format:{type:'json_object'},messages:[{role:'system',content:sys+QRULES},{role:'user',content:src}]})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=JSON.parse((await r.json()).choices[0].message.content);
+    const lt=new Set((src.match(TOK)||[]).map(norm));
+    const grounded=ev=>{const w=(String(ev).match(TOK)||[]).map(norm);return w.length>=2&&w.filter(x=>lt.has(x)).length/w.length>=.7};
+    const seen=new Set(),out=[];let rej=0;
+    for(const x of (Array.isArray(j.questions)?j.questions:[])){
+      try{
+        const q=String((x&&x.q)||'').trim(),a=String((x&&x.answer)||'').trim(),key2=norm(q);
+        if(q.length<10||!a||!types.includes(x.type)||seen.has(key2)||!grounded(x.evidence||''))throw 0;
+        if(x.type==='mcq'){
+          const o=(Array.isArray(x.options)?x.options:[]).map(v=>String(v).trim()).filter(Boolean);
+          if(o.length!==4||new Set(o.map(norm)).size!==4||o.filter(v=>norm(v)===norm(a)).length!==1)throw 0;
+          out.push({type:'mcq',q,opts:shuffle(o),a:o.find(v=>norm(v)===norm(a)),src:x.explain});
+        }else if(x.type==='tf'){
+          const t=/^(صح|صحيح|true)/i.test(a)?'صح':/^(خطأ|خطا|غلط|false)/i.test(a)?'خطأ':null;
+          if(!t)throw 0;out.push({type:'tf',q,a:t,src:x.explain});
+        }else{
+          if(a.split(/\s+/).length>5)throw 0;out.push({type:'sh',q,a,src:x.explain});
+        }
+        seen.add(key2);
+      }catch(e){rej++}
+    }
+    if(!out.length)throw new Error('مفيش أسئلة سليمة في رد الذكاء الاصطناعي');
+    $('msg').textContent=rej?('اتشالت '+rej+' سؤال مش مطابق للمحاضرة أو مش سليم.'):'';
+    const fin=out.filter(q=>validQ(q,false));
+    if(!fin.length)throw new Error('الأسئلة ما اجتازتش فحص الجودة');
+    return fin.slice(0,n);
+  }catch(e){
+    $('msg').textContent='تعذر الذكاء الاصطناعي ('+e.message+')، استخدمت الوضع العادي.';
+    return build(text,n,types);
+  }
+}
+async function aiBuildOld(text,n,types){
   const key=$('apiKey').value.trim();
   if(!key){$('msg').textContent='اكتب مفتاح OpenAI الأول.';return[]}
   try{localStorage.setItem('sos_key',key)}catch(e){}
@@ -434,7 +620,7 @@ function renderAcc(){
   }
   if(!PROF){
     el.innerHTML='<h2>كمّل بياناتك</h2><div class="card"><p class="sub">الغرفة بتتحدد بمرحلتك وسنتك وكليتك، ومش هتقدر تغيّرها بعدين.</p><input class="f" id="nk" maxlength="20" placeholder="اسم مستعار (3 لـ 20 حرف، مش اسمك الحقيقي)"><div class="row"><select id="sg">'+opts(STAGES)+'</select><select id="yr">'+opts(YEARS)+'</select><select id="fl">'+opts(FIELDS)+'</select></div><button id="mk">حفظ</button><div class="msg" id="am"></div></div>';
-    $('mk').onclick=async()=>{const r=await sb.rpc('create_profile',{p_nick:$('nk').value,p_stage:$('sg').value,p_year:$('yr').value,p_field:$('fl').value});if(r.error)$('am').textContent=/duplicate|unique/.test(r.error.message)?'الاسم ده مستخدم، اختار غيره':'تعذر الحفظ: '+r.error.message;else loadMe()};
+    $('mk').onclick=async()=>{const r=await sb.rpc('create_profile',{p_nick:$('nk').value,p_stage:$('sg').value,p_year:$('yr').value,p_field:$('fl').value});if(r.error){const e=r.error.message;if(/profiles_pkey/.test(e)){$('am').textContent='حسابك متسجّل بالفعل، بحمّل بياناتك...';loadMe()}else $('am').textContent=(/nickname/.test(e)?'الاسم ده مستخدم، اختار غيره':'تعذّر الحفظ')+' ('+e+')'}else loadMe()};
     return;
   }
   const pro=PROF.plan==='pro'&&PROF.plan_until&&new Date(PROF.plan_until)>new Date();
@@ -501,23 +687,26 @@ $('gen').onclick=async()=>{
   if(text.length<200){$('msg').textContent='النص قصير، ارفع محاضرة أو الصق نص أطول.';return}
   if(!types.length){$('msg').textContent='اختار نوع أسئلة واحد على الأقل.';return}
   const n=Math.max(3,Math.min(40,+$('count').value||10));
+  const clean=sanitize(text.replace(/⟦p\d+⟧/g,'\n')),tq=textQuality(clean);
+  if(!tq.ok&&!window.FORCE){window.FORCE=true;$('msg').textContent='⚠️ النص شكله مش نضيف ('+tq.why+'). جرّب أزرار القلب أو Word أو وضع الذكاء الاصطناعي. لو متأكد إنه سليم اضغط "ابدأ الاختبار" تاني.';return}
+  window.FORCE=false;
   Q=$('useAI').checked?await aiBuild(text,n,types):build(text,n,types);
-  if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
-  render();upd();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
+  if(Q.length&&Q.length<n)$('msg').textContent='النص مش كفاية غير لـ '+Q.length+' سؤال سليم من '+n+' مطلوبين.';if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
+  DONE=false;render();upd();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
 };
-$('submit').onclick=()=>{stopTimer();
-  let score=0;
+$('submit').onclick=()=>{if(DONE)return;DONE=true;stopTimer();document.querySelectorAll('#qs input').forEach(i=>{i.disabled=true});
+  let score=0,UN=0;
   Q.forEach((x,i)=>{
     const card=$('c'+i),fb=$('f'+i);
     const val=x.type==='sh'?card.querySelector('input[type=text]').value:(card.querySelector('input:checked')||{}).value||'';
-    const ok=norm(val)===norm(x.a);if(ok)score++;
+    const ok=same(val,x.a);if(!norm(val))UN++;if(ok)score++;
     card.querySelectorAll('.opt').forEach(l=>{const v=l.querySelector('input').value;if(norm(v)===norm(x.a))l.classList.add('ok');else if(v===val)l.classList.add('bad')});
     fb.className='fb '+(ok?'ok':'bad');
     fb.textContent=ok?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+x.a+(x.type==='tf'&&x.src?' (ملاحظة: '+x.src+')':'');
   });
   const pct=Math.round(score/Q.length*100),g=grade(pct);
   $('result').hidden=false;
-  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div>${reward(score,pct)}`;
+  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div><div class="sub">✅ ${score} · ❌ ${Q.length-score-UN} · ⬜ ${UN}</div>${reward(score,pct)}`;
   const r=store();r.push({t:title,s:score,n:Q.length,pct,d:new Date().toLocaleDateString('ar-EG')});store.set(r.slice(-50));
   $('submit').hidden=true;$('result').scrollIntoView({behavior:'smooth'});
 };
