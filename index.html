@@ -634,7 +634,7 @@ let ME=null,PROF=null;
 const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['طب','هندسة','صيدلة','علوم','تجارة','حقوق','آداب','تربية','حاسبات','علمي علوم','علمي رياضة','أدبي','أخرى'];
 const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
 const optsSel=(a,v)=>a.map(x=>'<option'+(x===v?' selected':'')+'>'+x+'</option>').join('');
-const roleTag=r=>r==='owner'?' <span class="own">👑 الكل في الكل</span>':'';
+const roleTag=r=>r==='vip'?' <span class="own">👑 مميزة</span>':r==='owner'?' <span class="own">👑 الكل في الكل</span>':'';
 const roomOf=p=>p.stage+'|'+p.year+'|'+p.field;
 async function loadMe(){
   const {data}=await sb.auth.getSession();ME=data.session?data.session.user:null;PROF=null;
@@ -693,7 +693,7 @@ $('myroom').onchange=loadBoard;
 function addMsg(m){
   const box=$('msgs');if(!box||box.querySelector('[data-id="'+m.id+'"]'))return;
   const mine=PROF&&m.user_id===PROF.id,d=document.createElement('div');
-  d.className='m'+(mine?' me':'')+(m.role==='owner'?' owner':'');d.dataset.id=m.id;
+  d.className='m'+(mine?' me':'')+((m.role==='owner'||m.role==='vip')?' owner':'');d.dataset.id=m.id;
   d.innerHTML='<b>'+esc(m.nickname)+'</b>'+roleTag(m.role)+' <span dir="auto">'+esc(m.body)+'</span>'+(mine?'':' <button class="ghost rp" title="إبلاغ">🚩</button>');
   const b=d.querySelector('.rp');if(b)b.onclick=async()=>{await sb.from('reports').insert({message_id:m.id});b.textContent='✓';b.disabled=true};
   box.appendChild(d);box.scrollTop=box.scrollHeight;
