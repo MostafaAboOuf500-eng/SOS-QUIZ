@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl" data-theme="dark"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SOS | منصة الاختبارات الذكية: حوّل محاضراتك لاختبارات مجانا</title>
@@ -50,8 +48,8 @@ button.ghost{background:transparent;color:var(--pri);border:1px solid var(--pri)
 .timer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:8;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 14px;margin-bottom:12px;font-weight:700;text-align:center}
 footer{text-align:center;color:var(--mut);padding:18px;font-size:.85rem}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&amp;family=Tajawal:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <style>
 :root{--bg:#EDF1F0;--card:#F7F9F8;--tx:#161E1B;--mut:#52525B;--pri:#05B543;--bd:#D2DCD8;--ok:#05B543;--bad:#e11d48;--glow:rgba(8,227,85,.28)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080A;--card:#101216;--tx:#FAFAFA;--mut:#A1A1AA;--pri:#08E355;--bd:#252A36;--ok:#4ade80;--bad:#fda4af}}
@@ -100,12 +98,12 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
 <body>
 <header><nav>
   <b>📚 SOS</b>
-  <a href="#home" data-n="home">الرئيسية</a>
+  <a href="#home" data-n="home" class="on">الرئيسية</a>
   <a href="#quiz" data-n="quiz">اختبار جديد</a>
   <a href="#results" data-n="results">نتائجي</a>
   <a href="#board" data-n="board">🏆 المتصدرين</a><a href="#chat" data-n="chat">💬 الشات</a><a href="#account" data-n="account">👤 حسابي</a>
-  <button id="themeBtn" class="ghost" type="button" title="الوضع الليلي">🌙</button>
-  <span class="chip" id="chip" title="الأيام المتتالية · المستوى"></span>
+  <button id="themeBtn" class="ghost" type="button" title="الوضع الليلي">☀️</button>
+  <span class="chip" id="chip" title="الأيام المتتالية · المستوى">🔥0 · ⭐1</span>
 </nav></header>
 <main>
 
@@ -120,26 +118,27 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
     <div class="card"><h2>2. حل الاختبار</h2><p class="sub">اختيار من متعدد، صح وخطأ، وأكمل الفراغ.</p></div>
     <div class="card"><h2>3. اعرف تقديرك</h2><p class="sub">تقدير فوري ونتائجك بتتحفظ تتابع تطورك.</p></div>
   </div>
-  <div class="card"><h2>نظام التقديرات</h2><table class="tbl" id="scale"></table></div>
+  <div class="card"><h2>نظام التقديرات</h2><table class="tbl" id="scale"><tbody><tr><th>التقدير</th><th>الوصف</th><th>النسبة</th></tr><tr><td><span class="gb" style="background:#15803d">A+</span></td><td>ممتاز جدا</td><td>90% - 100%</td></tr><tr><td><span class="gb" style="background:#16a34a">A</span></td><td>ممتاز</td><td>80% - 89%</td></tr><tr><td><span class="gb" style="background:#2563eb">C+</span></td><td>جيد جدا</td><td>70% - 79%</td></tr><tr><td><span class="gb" style="background:#d97706">C</span></td><td>جيد</td><td>60% - 69%</td></tr><tr><td><span class="gb" style="background:#dc2626">F</span></td><td>راسب</td><td>أقل من 60%</td></tr></tbody></table></div>
+  <div class="card"><h2>⭐ SOS Pro</h2><p class="sub">أسعار بسيطة لدعم تطوير المنصة والاستفادة من مزايا Pro.</p><div class="grid"><div class="card"><h3>7 أيام</h3><div class="sc">30 جنيه</div></div><div class="card"><h3>30 يوم</h3><div class="sc">100 جنيه</div></div></div><p class="msg">الأسعار معلنة، وتفعيل الدفع الإلكتروني قيد التجهيز. لا تدفع قبل إتاحة طريقة دفع رسمية.</p></div>
 </section>
 
-<section data-v="quiz" hidden>
+<section data-v="quiz" hidden="">
   <div id="setup" class="card">
     <h2>اختبار جديد</h2>
     <label class="drop" for="file">📄 اضغط هنا لرفع ملف المحاضرة<br><small>pdf · docx · pptx · txt</small></label>
-    <input type="file" id="file" accept=".pdf,.docx,.pptx,.txt,.md" hidden>
+    <input type="file" id="file" accept=".pdf,.docx,.pptx,.txt,.md" hidden="">
     <div class="msg" id="msg"></div>
     <textarea id="text" dir="auto" placeholder="أو الصق نص المحاضرة هنا..."></textarea>
     <div class="row">
       <label>عدد الأسئلة <input type="number" id="count" value="10" min="3" max="40" style="width:70px"></label>
       <label>مدة الامتحان بالدقايق (0 = بدون وقت) <input type="number" id="mins" value="0" min="0" max="300" style="width:70px"></label>
-      <label class="chk"><input type="checkbox" id="tMcq" checked> اختيار من متعدد</label>
-      <label class="chk"><input type="checkbox" id="tTf" checked> صح / خطأ</label>
-      <label class="chk"><input type="checkbox" id="tSh" checked> أكمل</label>
+      <label class="chk"><input type="checkbox" id="tMcq" checked=""> اختيار من متعدد</label>
+      <label class="chk"><input type="checkbox" id="tTf" checked=""> صح / خطأ</label>
+      <label class="chk"><input type="checkbox" id="tSh" checked=""> أكمل</label>
     </div>
     <div class="row">
       <label class="chk"><input type="checkbox" id="ocr"> قراءة PDF بالـ OCR (أدق مع العربي، أبطأ)</label>
-      <label class="chk"><input type="checkbox" id="skipMeta" checked> تجاهل بيانات المؤلفين والمقدمة والوزارة</label>
+      <label class="chk"><input type="checkbox" id="skipMeta" checked=""> تجاهل بيانات المؤلفين والمقدمة والوزارة</label>
       <label>تخطي أول <input type="number" id="skipPages" value="0" min="0" max="50" style="width:60px"> صفحة (الغلاف والمقدمة)</label>
     </div>
     <div class="row">
@@ -154,24 +153,24 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
     </details>
     <button id="gen">ابدأ الاختبار</button>
   </div>
-  <div id="quiz" hidden>
+  <div id="quiz" hidden="">
     <div class="pbar"><i id="pfill"></i></div>
-    <div class="timer" id="timer" hidden></div>
+    <div class="timer" id="timer" hidden=""></div>
     <div id="qs"></div>
-    <div class="card big" id="result" hidden></div>
+    <div class="card big" id="result" hidden=""></div>
     <div class="row"><button id="submit">تصحيح</button><button class="ghost" id="again">اختبار جديد</button><a class="btn ghost" href="#results" style="background:transparent;color:var(--pri);border:1px solid var(--pri)">نتائجي</a></div>
   </div>
 </section>
 
-<section data-v="results" hidden>
+<section data-v="results" hidden="">
   <h2>نتائجي</h2>
   <div class="grid" id="stats"></div>
   <div class="card" style="overflow-x:auto"><table class="tbl" id="hist"></table></div>
   <button class="ghost" id="clear">مسح النتائج</button>
 </section>
-<section data-v="board" hidden><h2>🏆 المتصدرين</h2><p class="sub">أعلى النقاط في المنصة. كل اختبار بتحله بيقرّبك من المركز الأول.</p><label class="chk"><input type="checkbox" id="myroom"> غرفتي بس (نفس مرحلتي وكليتي)</label><div class="card" style="overflow-x:auto;margin-top:10px"><table class="tbl" id="bdy"></table></div></section>
-<section data-v="chat" hidden><h2>💬 الشات</h2><p class="sub">غرفتك: <b id="roomname">-</b>. اسم مستعار فقط، وممنوع الروابط وأرقام التليفونات. اضغط 🚩 للإبلاغ عن أي رسالة مسيئة.</p><div id="chatbox"></div></section>
-<section data-v="account" hidden id="acc"></section>
+<section data-v="board" hidden=""><h2>🏆 المتصدرين</h2><p class="sub">أعلى النقاط في المنصة. كل اختبار بتحله بيقرّبك من المركز الأول.</p><label class="chk"><input type="checkbox" id="myroom"> غرفتي بس (نفس مرحلتي وكليتي)</label><div class="card" style="overflow-x:auto;margin-top:10px"><table class="tbl" id="bdy"></table></div></section>
+<section data-v="chat" hidden=""><h2>💬 الشات</h2><p class="sub">غرفتك: <b id="roomname">-</b>. اسم مستعار فقط، وممنوع الروابط وأرقام التليفونات. اضغط 🚩 للإبلاغ عن أي رسالة مسيئة.</p><div id="chatbox"></div></section>
+<section data-v="account" hidden="" id="acc"><h2>👤 حسابي</h2><p class="sub">سجّل عشان تدخل المتصدرين والشات وتحفظ نقاطك.</p><div class="card"><input class="f" id="em" placeholder="الإيميل" dir="ltr"><input class="f" type="password" id="pw" placeholder="الباسورد (6 حروف على الأقل)" dir="ltr"><div class="row"><button id="login">دخول</button><button class="ghost" id="signup">حساب جديد</button></div><div class="msg" id="am"></div></div></section>
 </main>
 <footer>SOS · منصة الاختبارات الذكية</footer>
 
@@ -634,7 +633,7 @@ let ME=null,PROF=null;
 const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['طب','هندسة','صيدلة','علوم','تجارة','حقوق','آداب','تربية','حاسبات','علمي علوم','علمي رياضة','أدبي','أخرى'];
 const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
 const optsSel=(a,v)=>a.map(x=>'<option'+(x===v?' selected':'')+'>'+x+'</option>').join('');
-const roleTag=r=>r==='vip'?' <span class="own">👑 مميزة</span>':r==='owner'?' <span class="own">👑 Owner</span>':'';
+const roleTag=r=>r==='vip'?' <span class="own">👑 مميزة</span>':r==='owner'?' <span class="own">👑 الكل في الكل</span>':'';
 const roomOf=p=>p.stage+'|'+p.year+'|'+p.field;
 async function loadMe(){
   const {data}=await sb.auth.getSession();ME=data.session?data.session.user:null;PROF=null;
@@ -699,21 +698,31 @@ function addMsg(m){
   box.appendChild(d);box.scrollTop=box.scrollHeight;
 }
 async function send(){
-  const i=$('mi'),body=i.value.trim();if(!body)return;
+  const i=$('mi'),body=i.value.trim();if(!body||!PROF)return;
   const r=await sb.from('messages').insert({room:roomOf(PROF),user_id:PROF.id,nickname:PROF.nickname,body}).select().single();
-  $('cm').textContent=r.error?(/slow/.test(r.error.message)?'براحة شوية 😅':'الرسالة مرفوضة (ممنوع الروابط وأرقام التليفونات)'):'';
-  if(!r.error){i.value='';addMsg(r.data)}
+  $('cm').textContent=r.error?(/SOS_CHAT_BANNED/.test(r.error.message)?'⛔ حسابك محظور مؤقتًا لحين مراجعة الإدارة.':/slow/.test(r.error.message)?'براحة شوية 😅':'الرسالة مرفوضة (ممنوع الروابط وأرقام التليفونات)'):(!r.data?'⛔ الرسالة اتمنعت تلقائيًا، وتم إرسالها للمراجعة.':'');
+  if(!r.error){i.value='';if(r.data)addMsg(r.data)}
+}
+async function loadModeration(){
+  const p=$('modpanel');if(!p)return;p.hidden=false;p.innerHTML='<div class="card">جارٍ تحميل المراجعات...</div>';
+  const r=await sb.rpc('sos_get_moderation_cases');
+  if(r.error){p.innerHTML='<div class="card">تعذر تحميل المراجعات: '+esc(r.error.message)+'</div>';return}
+  const cases=r.data||[];
+  p.innerHTML='<div class="card"><h3>🛡️ مراجعة الرسائل المخالفة ('+cases.length+')</h3>'+(cases.length?cases.map(c=>'<article class="card"><b>'+esc(c.nickname||'مستخدم')+'</b><p>'+esc(c.message_body)+'</p><small>السبب: '+esc(c.matched_pattern||'فلتر تلقائي')+' · '+esc(c.room||'')+'</small><div class="row"><button data-review="'+c.id+'" data-keep="0">إلغاء البان</button><button class="ghost" data-review="'+c.id+'" data-keep="1">تثبيت البان</button></div></article>').join(''):'لا توجد رسائل بانتظار المراجعة.' )+'<button class="ghost" id="modclose">إغلاق</button></div>';
+  p.querySelectorAll('[data-review]').forEach(b=>b.onclick=async()=>{b.disabled=true;const rr=await sb.rpc('sos_review_moderation_case',{p_case_id:Number(b.dataset.review),p_keep_ban:b.dataset.keep==='1'});if(rr.error){alert('تعذر تنفيذ القرار: '+rr.error.message);b.disabled=false}else loadModeration()});
+  const close=$('modclose');if(close)close.onclick=()=>{p.hidden=true};
 }
 async function openChat(){
   const el=$('chatbox');
   if(window.CH){sb.removeChannel(window.CH);window.CH=null}
   if(!PROF){el.innerHTML='<div class="card">لازم تسجّل وتكمّل بياناتك الأول. <a href="#account">حسابي</a></div>';return}
   const room=roomOf(PROF);$('roomname').textContent=room.replace(/\|/g,' · ');
-  el.innerHTML='<div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>';
+  el.innerHTML='<div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>'+(PROF.role==='owner'?' <button id="modopen" class="ghost">🛡️ مراجعة البلاغات</button>':'')+'<div id="modpanel" hidden></div>';
   const r=await sb.from('messages').select('*').eq('room',room).order('id',{ascending:false}).limit(50);
   (r.data||[]).reverse().forEach(addMsg);
   window.CH=sb.channel('room-'+Date.now()).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{if(p.new.room===room)addMsg(p.new)}).subscribe();
   $('ms').onclick=send;$('mi').onkeydown=e=>{if(e.key==='Enter')send()};
+  if(PROF.role==='owner'&&$('modopen'))$('modopen').onclick=loadModeration;
 }
 route();
 let tm=null,endAt=0;
@@ -757,5 +766,6 @@ $('submit').onclick=()=>{if(DONE)return;DONE=true;stopTimer();document.querySele
 };
 $('again').onclick=()=>{stopTimer();$('timer').hidden=true;$('quiz').hidden=true;$('setup').hidden=false;$('text').value='';$('file').value='';$('msg').textContent='';title='نص ملصوق';window.scrollTo(0,0)};
 </script>
-</body>
-</html>
+
+
+</body></html>
