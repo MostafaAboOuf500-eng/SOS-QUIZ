@@ -635,8 +635,7 @@ let ME=null,PROF=null;
 const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['طب','هندسة','صيدلة','علوم','تجارة','حقوق','آداب','تربية','حاسبات','علمي علوم','علمي رياضة','أدبي','أخرى'];
 const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
 const optsSel=(a,v)=>a.map(x=>'<option'+(x===v?' selected':'')+'>'+x+'</option>').join('');
-const roleTag=r=>r==='vip'?' <span class="own">👑 مميزة</span>':r==='owner'?' <span class="own">👑 الكل في الكل</span>':'';
-const roomOf=p=>p.stage+'|'+p.year+'|'+p.field;
+const roleTag=r=>r==='vip'?' <span class="own">👑 VIP</span>':r==='owner'?' <span class="own">👑 OWNER</span>':'';
 async function loadMe(){
   const {data}=await sb.auth.getSession();ME=data.session?data.session.user:null;PROF=null;
   if(ME){const r=await sb.from('profiles').select('*').eq('id',ME.id).maybeSingle();PROF=r.data}
