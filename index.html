@@ -1,4 +1,7 @@
 <html lang="ar" dir="rtl" data-theme="dark"><head>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="SOS">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SOS | منصة الاختبارات الذكية: حوّل محاضراتك لاختبارات مجانا</title>
@@ -325,17 +328,19 @@ function loadScript(u){return new Promise((ok,no)=>{if(window.Tesseract)return o
 async function ocrPdf(pdf){
   await loadScript('https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.2/tesseract.min.js');
   const n=Math.min(pdf.numPages,40);
-  $('msg').textContent='تجهيز OCR (أول مرة بينزّل بيانات اللغة العربية، ممكن ياخد وقت)...';
+  $('msg').textContent='تجهيز OCR (أول مرة قد ينزّل بيانات اللغة)...';
   const worker=await Tesseract.createWorker('ara+eng',1,{workerPath:'https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.2/worker.min.js'});
   const out=[];
   try{
     for(let i=1;i<=n;i++){
-      $('msg').textContent='OCR: صفحة '+i+' من '+n+'...';
-      const page=await pdf.getPage(i),vp=page.getViewport({scale:2}),c=document.createElement('canvas');
-      c.width=vp.width;c.height=vp.height;
-      await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+      $('msg').textContent='OCR سريع: صفحة '+i+' من '+n+'...';
+      const page=await pdf.getPage(i),vp=page.getViewport({scale:1.45}),c=document.createElement('canvas');
+      c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
+      await page.render({canvasContext:c.getContext('2d',{willReadFrequently:false}),viewport:vp}).promise;
       const r=await worker.recognize(c);
       out.push('⟦p'+i+'⟧\n'+r.data.text);
+      c.width=0;c.height=0;page.cleanup?.();
+      if(i%2===0)await new Promise(resolve=>setTimeout(resolve,0));
     }
   }finally{await worker.terminate()}
   if(pdf.numPages>n)out.push('\n(اتقرأت أول '+n+' صفحة بس)');
@@ -347,8 +352,10 @@ async function readFile(f){
   const buf=await f.arrayBuffer();
   if(n.endsWith('.pdf')){
     try{pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js'}catch(e){}
-    const pdf=await pdfjsLib.getDocument({data:buf}).promise;let out=[];
-    for(let i=1;i<=pdf.numPages;i++){const c=await(await pdf.getPage(i)).getTextContent();out.push('⟦p'+i+'⟧\n'+pageText(c.items))}
+    const pdf=await pdfjsLib.getDocument({data:buf,disableAutoFetch:true,disableFontFace:true}).promise;
+    const out=new Array(pdf.numPages);let next=1,done=0;
+    const extractWorker=async()=>{while(true){const i=next++;if(i>pdf.numPages)return;const page=await pdf.getPage(i);const c=await page.getTextContent({disableCombineTextItems:false});out[i-1]='⟦p'+i+'⟧\n'+pageText(c.items);page.cleanup?.();done++;if(done%5===0||done===pdf.numPages)$('msg').textContent='استخراج النص: '+done+' من '+pdf.numPages+' صفحة...';if(done%4===0)await new Promise(resolve=>setTimeout(resolve,0));}};
+    await Promise.all(Array.from({length:Math.min(5,pdf.numPages)},extractWorker));
     let text=fixAr(out.join('\n'));
     if($('ocr').checked||!textQuality(sanitize(text.replace(/⟦p\d+⟧/g,'\n'))).ok){
       try{return await ocrPdf(pdf)}catch(e){$('msg').textContent='تعذر OCR: '+e.message+' — هستخدم القراءة العادية.'}
