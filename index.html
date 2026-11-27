@@ -96,6 +96,20 @@ section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
 .opt:has(input:checked){border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* subtle SOS room-specific atmosphere */
+#chatbox{position:relative;isolation:isolate;border-radius:18px;overflow:hidden}
+#chatbox::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.05}
+#chatbox[data-room-theme="ai"]::before,#chatbox[data-room-theme="computers"]::before{background-image:linear-gradient(90deg,transparent 49%,#08e355 50%,transparent 51%),linear-gradient(transparent 49%,#08e355 50%,transparent 51%);background-size:32px 32px;opacity:.07}
+#chatbox[data-room-theme="engineering"]::before{background-image:linear-gradient(0deg,transparent 49%,#60a5fa 50%,transparent 51%),linear-gradient(90deg,transparent 49%,#60a5fa 50%,transparent 51%);background-size:24px 24px;opacity:.08}
+#chatbox[data-room-theme="medicine"]::before,#chatbox[data-room-theme="dentistry"]::before,#chatbox[data-room-theme="pharmacy"]::before,#chatbox[data-room-theme="therapy"]::before{background-image:radial-gradient(circle,#60a5fa 1px,transparent 2px);background-size:26px 26px;opacity:.05}
+#chatbox[data-room-theme="science"]::before{background-image:radial-gradient(circle,transparent 4px,#22c55e 5px,transparent 6px);background-size:42px 42px;opacity:.07}
+#chatbox[data-room-theme="commerce"]::before{background-image:linear-gradient(135deg,transparent 47%,#f59e0b 48%,#f59e0b 50%,transparent 51%);background-size:32px 32px;opacity:.05}
+#chatbox[data-room-theme="law"]::before{background-image:linear-gradient(90deg,transparent 47%,#d4a574 48%,#d4a574 50%,transparent 51%);background-size:42px 42px;opacity:.05}
+#chatbox[data-room-theme="arts"]::before{background-image:radial-gradient(circle,#a78bfa 2px,transparent 3px);background-size:35px 35px;opacity:.05}
+#chatbox[data-room-theme="education"]::before{background-image:linear-gradient(135deg,transparent 48%,#eab308 49%,#eab308 51%,transparent 52%);background-size:34px 34px;opacity:.05}
+.owner-welcome{border:1px solid rgba(245,197,24,.45);background:linear-gradient(110deg,rgba(245,197,24,.10),color-mix(in srgb,var(--card) 92%,transparent));border-radius:14px;padding:12px;margin:0 0 10px;color:var(--tx);font-size:.95rem}
+.owner-welcome b{color:#f5a300}
 </style>
 </head>
 <body>
@@ -648,7 +662,7 @@ chip();
 const SB_URL='https://nxqtsuvexcppephnqijg.supabase.co',SB_KEY='sb_publishable_D2b7vr5CiJ6E3_BuUiAoAw_yTEMB2n5';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 let ME=null,PROF=null;
-const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['بيطري طب','أسنان طب','طب','هندسة','صيدلة','علوم','تجارة','حقوق','آداب','تربية','حاسبات','علمي علوم','علمي رياضة','أدبي','أخرى'];
+const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['حاسبات ومعلومات','ذكاء اصطناعي (AI)','هندسة','طب','أسنان','صيدلة','علاج طبيعي','علوم','تجارة','حقوق','آداب','تربية','طب بيطري','علمي علوم','علمي رياضة','أدبي','أخرى'];
 const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
 const optsSel=(a,v)=>a.map(x=>'<option'+(x===v?' selected':'')+'>'+x+'</option>').join('');
 const roleTag=r=>r==='vip'?' <span class="own">👑 VIP</span>':r==='owner'?' <span class="own">OWNER👑</span>':'';
@@ -688,12 +702,12 @@ function renderAcc(){
     $('login').onclick=()=>auth('in');$('signup').onclick=()=>auth('up');$('resetpw').onclick=resetPassword;return;
   }
   if(!PROF){
-    el.innerHTML='<h2>كمّل بياناتك</h2><div class="card"><p class="sub">الغرفة بتتحدد بمرحلتك وسنتك وكليتك، وتقدر تعدّلها بعدين مرة كل 30 يوم.</p><input class="f" id="nk" maxlength="20" placeholder="اسم مستعار (3 لـ 20 حرف، مش اسمك الحقيقي)"><div class="row"><select id="sg">'+opts(STAGES)+'</select><select id="yr">'+opts(YEARS)+'</select><select id="fl">'+opts(FIELDS)+'</select></div><button id="mk">حفظ</button><div class="msg" id="am"></div></div>';
+    el.innerHTML='<h2>كمّل بياناتك</h2><div class="card"><p class="sub">الغرفة بتتحدد بمرحلتك وسنتك وتخصصك. اختار بياناتك بدقة؛ التخصص والمرحلة والسنة هتثبت بعد إنشاء الحساب.</p><input class="f" id="nk" maxlength="20" placeholder="اسم مستعار (3 لـ 20 حرف، مش اسمك الحقيقي)"><div class="row"><select id="sg">'+opts(STAGES)+'</select><select id="yr">'+opts(YEARS)+'</select><select id="fl">'+opts(FIELDS)+'</select></div><button id="mk">حفظ</button><div class="msg" id="am"></div></div>';
     $('mk').onclick=async()=>{const r=await sb.rpc('create_profile',{p_nick:$('nk').value,p_stage:$('sg').value,p_year:$('yr').value,p_field:$('fl').value});if(r.error){const e=r.error.message;if(/profiles_pkey/.test(e)){$('am').textContent='حسابك متسجّل بالفعل، بحمّل بياناتك...';loadMe()}else $('am').textContent=(/nickname/.test(e)?'الاسم ده مستخدم، اختار غيره':'تعذّر الحفظ')+' ('+e+')'}else loadMe()};
     return;
   }
   const pro=PROF.plan==='pro'&&PROF.plan_until&&new Date(PROF.plan_until)>new Date();
-  el.innerHTML='<h2>أهلا '+esc(PROF.nickname)+roleTag(PROF.role)+' 👋</h2><div class="card"><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p><p>⭐ المستوى '+lvl(PROF.xp)+' · '+PROF.xp+' نقطة · 🔥 '+PROF.streak+' يوم</p><p>الباقة: <b>'+(pro?'Pro حتى '+new Date(PROF.plan_until).toLocaleDateString('ar-EG'):'مجانية')+'</b></p></div><div class="card"><b>كود الاشتراك</b><div class="row"><input class="f" id="cd" placeholder="SOS-XXXX-XXXX" dir="ltr" style="flex:1;margin:0"><button id="rd">فعّل</button></div><div class="msg" id="am"></div></div><div class="card"><b>تعديل المرحلة والسنة والكلية</b><p class="sub">التغيير بينقلك لغرفة شات تانية، ومش هتقدر تعدّلها تاني قبل 30 يوم.</p><div class="row"><select id="esg">'+optsSel(STAGES,PROF.stage)+'</select><select id="eyr">'+optsSel(YEARS,PROF.year)+'</select><select id="efl">'+optsSel(FIELDS,PROF.field)+'</select></div><button id="eb">حفظ التعديل</button><div class="msg" id="em2"></div></div><button class="ghost" id="lo">تسجيل خروج</button>';
+  el.innerHTML='<h2>أهلا '+esc(PROF.nickname)+roleTag(PROF.role)+' 👋</h2><div class="card"><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p><p>⭐ المستوى '+lvl(PROF.xp)+' · '+PROF.xp+' نقطة · 🔥 '+PROF.streak+' يوم</p><p>الباقة: <b>'+(pro?'Pro حتى '+new Date(PROF.plan_until).toLocaleDateString('ar-EG'):'مجانية')+'</b></p></div><div class="card"><b>كود الاشتراك</b><div class="row"><input class="f" id="cd" placeholder="SOS-XXXX-XXXX" dir="ltr" style="flex:1;margin:0"><button id="rd">فعّل</button></div><div class="msg" id="am"></div></div><div class="card"><b>بيانات الغرفة 🔒</b><p class="sub">المرحلة والسنة والتخصص ثابتين بعد إنشاء الحساب لضمان استقرار غرف التخصص.</p><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p></div><button class="ghost" id="lo">تسجيل خروج</button>';
   $('rd').onclick=async()=>{const r=await sb.rpc('redeem_code',{p_code:$('cd').value});if(r.error)$('am').textContent='الكود غلط أو مستخدم قبل كده';else{$('am').textContent='✅ اتفعّل الاشتراك';loadMe()}};
   $('lo').onclick=()=>sb.auth.signOut();
   $('eb').onclick=async()=>{
@@ -743,12 +757,13 @@ async function loadModeration(){
   p.querySelectorAll('[data-review]').forEach(b=>b.onclick=async()=>{b.disabled=true;const rr=await sb.rpc('sos_review_moderation_case',{p_case_id:Number(b.dataset.review),p_keep_ban:b.dataset.keep==='1'});if(rr.error){alert('تعذر تنفيذ القرار: '+rr.error.message);b.disabled=false}else loadModeration()});
   const close=$('modclose');if(close)close.onclick=()=>{p.hidden=true};
 }
+function roomTheme(field){const f=(field||'').toLowerCase();if(f.includes('ذكاء')||f.includes('ai'))return 'ai';if(f.includes('حاسبات'))return 'computers';if(f.includes('هندسة'))return 'engineering';if(f.includes('أسنان'))return 'dentistry';if(f.includes('صيدلة'))return 'pharmacy';if(f.includes('علاج'))return 'therapy';if(f.includes('طب')||f.includes('بيطري'))return 'medicine';if(f.includes('علوم'))return 'science';if(f.includes('تجارة'))return 'commerce';if(f.includes('حقوق'))return 'law';if(f.includes('آداب'))return 'arts';if(f.includes('تربية'))return 'education';return 'general'}
 async function openChat(){
   const el=$('chatbox');
   if(window.CH){sb.removeChannel(window.CH);window.CH=null}
   if(!PROF){el.innerHTML='<div class="card">لازم تسجّل وتكمّل بياناتك الأول. <a href="#account">حسابي</a></div>';return}
   const room=roomOf(PROF);$('roomname').textContent=room.replace(/\|/g,' · ');
-  el.innerHTML='<div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>'+(PROF.role==='owner'?' <button id="modopen" class="ghost">🛡️ مراجعة البلاغات</button>':'')+'<div id="modpanel" hidden></div>';
+  el.dataset.roomTheme=roomTheme(PROF.field);el.innerHTML='<div class="owner-welcome"><b>el_sos OWNER👑</b> Welcome! I\'m Mostafa Abo Ouf, an AI student and the creator of this platform 👑 I built it so students can learn and compete together. Got a suggestion or a problem? Message me, I\'m listening.</div><div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>'+(PROF.role==='owner'?' <button id="modopen" class="ghost">🛡️ مراجعة البلاغات</button>':'')+'<div id="modpanel" hidden></div>';
   const r=await sb.from('messages').select('*').eq('room',room).order('id',{ascending:false}).limit(50);
   (r.data||[]).reverse().forEach(addMsg);
   window.CH=sb.channel('room-'+Date.now()).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{if(p.new.room===room)addMsg(p.new)}).subscribe();
