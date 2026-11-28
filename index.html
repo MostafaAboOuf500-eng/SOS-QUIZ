@@ -1,0 +1,826 @@
+<html lang="ar" dir="rtl" data-theme="dark"><head>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="SOS">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOS | منصة الاختبارات الذكية: حوّل محاضراتك لاختبارات مجانا</title>
+<meta name="description" content="ارفع محاضرتك (PDF أو Word أو PowerPoint) واحصل على اختبار فوري بأسئلة اختيار من متعدد وصح وخطأ وأكمل، مع تايمر وتقدير نهائي ونتائج محفوظة. مجاني.">
+<meta name="keywords" content="اختبارات, مذاكرة, محاضرات, اختبار من ملف, امتحان اونلاين, SOS">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#4f46e5">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="SOS | منصة الاختبارات الذكية">
+<meta property="og:description" content="ارفع محاضرتك والمنصة تطلعلك اختبار منها وتديك تقدير فوري.">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mut:#667085;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--bd:#e4e7ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12141b;--card:#1b1e28;--tx:#eceef4;--mut:#9aa1b2;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2c3140}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#12141b;--card:#1b1e28;--tx:#eceef4;--mut:#9aa1b2;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2c3140}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--bd)}
+nav{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:10px 16px;flex-wrap:wrap}
+nav b{font-size:1.2rem;margin-inline-end:auto;color:var(--pri)}
+nav a{color:var(--tx);text-decoration:none;padding:6px 12px;border-radius:8px}nav a.on{background:var(--pri);color:#fff}
+main{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+section[hidden]{display:none}
+h1{font-size:1.9rem;margin:8px 0}h2{font-size:1.25rem}p.sub{color:var(--mut)}
+.hero{text-align:center;padding:28px 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.tbl{width:100%;border-collapse:collapse}.tbl td,.tbl th{padding:8px;border-bottom:1px solid var(--bd);text-align:start}
+.gb{display:inline-block;min-width:44px;text-align:center;font-weight:700;border-radius:8px;padding:1px 8px;color:#fff}
+textarea{width:100%;min-height:150px;border:1px solid var(--bd);border-radius:10px;padding:10px;background:var(--bg);color:var(--tx);font:inherit}
+.drop{display:block;border:2px dashed var(--bd);border-radius:12px;padding:18px;text-align:center;cursor:pointer;color:var(--mut);margin-bottom:12px}
+.drop:hover{border-color:var(--pri)}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}
+label.chk{display:flex;gap:6px;align-items:center}
+select,input[type=number],input[type=text]{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:6px 10px;font:inherit}
+button,a.btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button.ghost{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+.q .n{color:var(--mut);font-size:.85rem}.q .t{font-weight:600;margin:4px 0 8px}
+.opt{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.fb{margin-top:6px;font-size:.92rem}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.big{text-align:center}.big .gb{font-size:2.2rem;padding:6px 22px}.big .sc{font-size:1.4rem;font-weight:700;margin-top:8px}
+.msg{color:var(--mut);font-size:.9rem;min-height:1.4em}
+.timer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:8;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 14px;margin-bottom:12px;font-weight:700;text-align:center}
+footer{text-align:center;color:var(--mut);padding:18px;font-size:.85rem}
+
+/* VIP identity: premium, restrained, and clearly separate from OWNER gold */
+.vip-badge{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;padding:1px 8px;border-radius:999px;margin-inline:4px;vertical-align:middle;color:#c4b5fd;background:rgba(139,92,246,.13);border:1px solid rgba(167,139,250,.38)}
+.m.vip{background:linear-gradient(105deg,rgba(124,58,237,.10),rgba(59,130,246,.045));border:1px solid rgba(139,92,246,.34);box-shadow:0 0 12px -8px rgba(139,92,246,.35)}
+.m.vip b{color:#a78bfa}
+.m.vip.me{background:linear-gradient(105deg,rgba(124,58,237,.13),rgba(59,130,246,.06))}
+@media(prefers-reduced-motion:reduce){.m.vip{box-shadow:none}}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&amp;family=Tajawal:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF1F0;--card:#F7F9F8;--tx:#161E1B;--mut:#52525B;--pri:#05B543;--bd:#D2DCD8;--ok:#05B543;--bad:#e11d48;--glow:rgba(8,227,85,.28)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080A;--card:#101216;--tx:#FAFAFA;--mut:#A1A1AA;--pri:#08E355;--bd:#252A36;--ok:#4ade80;--bad:#fda4af}}
+:root[data-theme="dark"]{--bg:#07080A;--card:#101216;--tx:#FAFAFA;--mut:#A1A1AA;--pri:#08E355;--bd:#252A36;--ok:#4ade80;--bad:#fda4af}
+body{font-family:Cairo,Tajawal,"Segoe UI",Tahoma,sans-serif;background-image:radial-gradient(color-mix(in srgb,var(--pri) 14%,transparent) 1px,transparent 1px);background-size:22px 22px;transition:background-color .25s,color .25s}
+header{background:color-mix(in srgb,var(--card) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+nav b{font-weight:900;font-size:1.35rem;color:var(--tx)}
+nav b::after{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--pri);margin-inline-start:6px;box-shadow:0 0 12px var(--pri)}
+nav a{font-weight:600;transition:background .2s}nav a:hover{background:color-mix(in srgb,var(--pri) 14%,transparent)}
+nav a.on{background:var(--pri);color:#fff}
+[data-theme="dark"] nav a.on,[data-theme="dark"] button:not(.ghost),[data-theme="dark"] a.btn:not(.ghost){color:#050608}
+button,a.btn{border-radius:14px;box-shadow:0 6px 18px -8px var(--glow);transition:transform .15s,box-shadow .2s,filter .2s}
+button:hover,a.btn:hover{filter:brightness(1.06)}button:active{transform:scale(.975)}
+button.ghost{box-shadow:none;background:transparent;color:var(--pri);border:1px solid color-mix(in srgb,var(--pri) 55%,transparent)}
+#themeBtn{padding:6px 12px;font-size:1.05rem}
+input[type=radio],input[type=checkbox]{accent-color:var(--pri)}
+.card{border-radius:18px}
+.grid .card{transition:transform .24s cubic-bezier(.22,1,.36,1),border-color .24s,box-shadow .24s}
+@media(hover:hover){.grid .card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--pri) 65%,transparent);box-shadow:0 12px 30px -12px var(--glow)}}
+.opt{transition:border-color .2s,background .2s}.opt:hover{border-color:var(--pri)}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 3px var(--glow)}
+.drop:hover{background:color-mix(in srgb,var(--pri) 8%,transparent)}
+.hero h1{font-weight:900;background:linear-gradient(90deg,var(--tx),var(--pri));-webkit-background-clip:text;background-clip:text;color:transparent}
+section[data-v]:not([hidden]){animation:up .28s cubic-bezier(.16,1,.3,1)}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:640px){header{position:fixed;top:auto;bottom:0;left:0;right:0;border-top:1px solid var(--bd);border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}nav{justify-content:space-around;flex-wrap:nowrap;padding:6px 8px}nav b{display:none}main{padding-bottom:96px}footer{margin-bottom:70px}.timer{top:calc(env(safe-area-inset-top,0px) + 8px)}}
+.chip{font-weight:700;font-size:.9rem;padding:4px 10px;border-radius:999px;border:1px solid var(--bd);background:var(--card);white-space:nowrap}
+.pbar,.xpbar{height:8px;background:color-mix(in srgb,var(--pri) 14%,transparent);border-radius:99px;overflow:hidden;margin:0 0 12px}
+.xpbar{margin:10px auto 0;max-width:260px}
+.f{width:100%;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:8px 10px;font:inherit;margin-bottom:8px}
+.msgs{height:55vh;overflow-y:auto;border:1px solid var(--bd);border-radius:14px;padding:10px;background:var(--card);margin-bottom:10px}
+.m{margin:6px 0;padding:6px 10px;border-radius:12px;background:color-mix(in srgb,var(--mut) 12%,transparent)}
+.m.me{background:color-mix(in srgb,var(--pri) 16%,transparent)}
+.m.owner{background:linear-gradient(90deg,rgba(245,197,24,.2),rgba(255,159,28,.08));border:1px solid rgba(245,197,24,.65);box-shadow:0 0 16px -6px rgba(245,197,24,.55)}
+.m.owner b{color:#f5a300;font-size:1.05rem}
+.own{display:inline-block;font-size:.75rem;font-weight:800;padding:1px 9px;border-radius:999px;background:linear-gradient(90deg,#f5c518,#ff9f1c);color:#2b1d00;box-shadow:0 0 12px rgba(245,197,24,.45);margin-inline:4px;vertical-align:middle}
+.rp{padding:0 6px;box-shadow:none!important;border:0!important;font-size:.8rem}
+@media(max-width:640px){nav a{padding:6px 6px;font-size:.8rem}#chip{display:none}}
+.pbar i,.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pri),#7CFFB0);border-radius:99px;transition:width .35s cubic-bezier(.22,1,.36,1)}
+.cf{position:fixed;top:-30px;font-size:1.6rem;z-index:99;pointer-events:none;animation:fall 2.2s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+.opt:has(input:checked){border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* subtle SOS room-specific atmosphere */
+#chatbox{position:relative;isolation:isolate;border-radius:18px;overflow:hidden}
+#chatbox::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.05}
+#chatbox[data-room-theme="ai"]::before,#chatbox[data-room-theme="computers"]::before{background-image:linear-gradient(90deg,transparent 49%,#08e355 50%,transparent 51%),linear-gradient(transparent 49%,#08e355 50%,transparent 51%);background-size:32px 32px;opacity:.07}
+#chatbox[data-room-theme="engineering"]::before{background-image:linear-gradient(0deg,transparent 49%,#60a5fa 50%,transparent 51%),linear-gradient(90deg,transparent 49%,#60a5fa 50%,transparent 51%);background-size:24px 24px;opacity:.08}
+#chatbox[data-room-theme="medicine"]::before,#chatbox[data-room-theme="dentistry"]::before,#chatbox[data-room-theme="pharmacy"]::before,#chatbox[data-room-theme="therapy"]::before{background-image:radial-gradient(circle,#60a5fa 1px,transparent 2px);background-size:26px 26px;opacity:.05}
+#chatbox[data-room-theme="science"]::before{background-image:radial-gradient(circle,transparent 4px,#22c55e 5px,transparent 6px);background-size:42px 42px;opacity:.07}
+#chatbox[data-room-theme="commerce"]::before{background-image:linear-gradient(135deg,transparent 47%,#f59e0b 48%,#f59e0b 50%,transparent 51%);background-size:32px 32px;opacity:.05}
+#chatbox[data-room-theme="law"]::before{background-image:linear-gradient(90deg,transparent 47%,#d4a574 48%,#d4a574 50%,transparent 51%);background-size:42px 42px;opacity:.05}
+#chatbox[data-room-theme="arts"]::before{background-image:radial-gradient(circle,#a78bfa 2px,transparent 3px);background-size:35px 35px;opacity:.05}
+#chatbox[data-room-theme="education"]::before{background-image:linear-gradient(135deg,transparent 48%,#eab308 49%,#eab308 51%,transparent 52%);background-size:34px 34px;opacity:.05}
+.owner-welcome{border:1px solid rgba(245,197,24,.45);background:linear-gradient(110deg,rgba(245,197,24,.10),color-mix(in srgb,var(--card) 92%,transparent));border-radius:14px;padding:12px;margin:0 0 10px;color:var(--tx);font-size:.95rem}
+.owner-welcome b{color:#f5a300}
+</style>
+</head>
+<body>
+<header><nav>
+  <b>
+    📚 SOS</b>
+  <a href="#home" data-n="home" class="on">الرئيسية</a>
+  <a href="#quiz" data-n="quiz">اختبار جديد</a>
+  <a href="#results" data-n="results">نتائجي</a>
+  <a href="#board" data-n="board">🏆 المتصدرين</a><a href="#chat" data-n="chat">💬 الشات</a><a href="#account" data-n="account">👤 حسابي</a>
+  <button id="themeBtn" class="ghost" type="button" title="الوضع الليلي">☀️</button>
+  <span class="chip" id="chip" title="الأيام المتتالية · المستوى">🔥0 · ⭐1</span>
+</nav></header>
+<main>
+
+<section data-v="home">
+  <div class="hero">
+    <h1>ذاكر بذكاء، اختبر نفسك في ثواني</h1>
+    <p class="sub">ارفع محاضرتك والمنصة تطلعلك اختبار منها وتديك تقدير فوري.</p>
+    <a class="btn" href="#quiz">ابدأ اختبار الآن</a>
+  </div>
+  <div class="grid">
+    <div class="card"><h2>1. ارفع المحاضرة</h2><p class="sub">PDF أو Word أو PowerPoint أو نص عادي.</p></div>
+    <div class="card"><h2>2. حل الاختبار</h2><p class="sub">اختيار من متعدد، صح وخطأ، وأكمل الفراغ.</p></div>
+    <div class="card"><h2>3. اعرف تقديرك</h2><p class="sub">تقدير فوري ونتائجك بتتحفظ تتابع تطورك.</p></div>
+  </div>
+  <div class="card"><h2>نظام التقديرات</h2><table class="tbl" id="scale"><tbody><tr><th>التقدير</th><th>الوصف</th><th>النسبة</th></tr><tr><td><span class="gb" style="background:#15803d">A+</span></td><td>ممتاز جدا</td><td>90% - 100%</td></tr><tr><td><span class="gb" style="background:#16a34a">A</span></td><td>ممتاز</td><td>80% - 89%</td></tr><tr><td><span class="gb" style="background:#2563eb">C+</span></td><td>جيد جدا</td><td>70% - 79%</td></tr><tr><td><span class="gb" style="background:#d97706">C</span></td><td>جيد</td><td>60% - 69%</td></tr><tr><td><span class="gb" style="background:#dc2626">F</span></td><td>راسب</td><td>أقل من 60%</td></tr></tbody></table></div>
+  <div class="card"><h2>⭐ SOS Pro</h2><p class="sub">أسعار بسيطة لدعم تطوير المنصة والاستفادة من مزايا Pro.</p><div class="grid"><div class="card"><h3>7 أيام</h3><div class="sc">50 جنيه</div></div><div class="card"><h3>30 يوم</h3><div class="sc">150 جنيه</div></div></div><p class="msg">الأسعار معلنة، وتفعيل الدفع الإلكتروني قيد التجهيز. لا تدفع قبل إتاحة طريقة دفع رسمية.</p></div>
+</section>
+
+<section data-v="quiz" hidden="">
+  <div id="setup" class="card">
+    <h2>اختبار جديد</h2>
+    <label class="drop" for="file">📄 اضغط هنا لرفع ملف المحاضرة<br><small>pdf · docx · pptx · txt</small></label>
+    <input type="file" id="file" accept=".pdf,.docx,.pptx,.txt,.md" hidden="">
+    <div class="msg" id="msg"></div>
+    <textarea id="text" dir="auto" placeholder="أو الصق نص المحاضرة هنا..."></textarea>
+    <div class="row">
+      <label>عدد الأسئلة <input type="number" id="count" value="10" min="3" max="40" style="width:70px"></label>
+      <label>مدة الامتحان بالدقايق (0 = بدون وقت) <input type="number" id="mins" value="0" min="0" max="300" style="width:70px"></label>
+      <label class="chk"><input type="checkbox" id="tMcq" checked=""> اختيار من متعدد</label>
+      <label class="chk"><input type="checkbox" id="tTf" checked=""> صح / خطأ</label>
+      <label class="chk"><input type="checkbox" id="tSh" checked=""> أكمل</label>
+    </div>
+    <div class="row">
+      <label class="chk"><input type="checkbox" id="ocr"> قراءة PDF بالـ OCR (أدق مع العربي، أبطأ)</label>
+      <label class="chk"><input type="checkbox" id="skipMeta" checked=""> تجاهل بيانات المؤلفين والمقدمة والوزارة</label>
+      <label>تخطي أول <input type="number" id="skipPages" value="0" min="0" max="50" style="width:60px"> صفحة (الغلاف والمقدمة)</label>
+    </div>
+    <div class="row">
+      <button class="ghost" id="fixLetters" type="button">🔁 اقلب حروف الكلمات</button>
+      <button class="ghost" id="fixWords" type="button">↔ اقلب ترتيب الكلمات</button>
+    </div>
+    <details class="card" style="margin:12px 0"><summary>🤖 وضع الذكاء الاصطناعي (اختياري، أدق بكتير)</summary>
+      <p class="sub">بيفهم المحاضرة ويتجاهل المقدمة وأسماء المؤلفين، وبيكتب أسئلة سليمة. محتاج مفتاح OpenAI بتاعك وبيتحفظ في متصفحك بس. بيشتغل على موقعك على GitHub، مش في معاينة claude.ai.</p>
+      <input type="password" id="apiKey" placeholder="sk-..." style="width:100%" dir="ltr">
+      <div class="row"><button class="ghost" type="button" id="clrKey">امسح المفتاح</button><span class="sub" style="font-size:.82rem">تحذير: المفتاح بيتحفظ في متصفحك ومش آمن للإطلاق العام. استخدمه على جهازك بس وامسحه بعدين.</span></div>
+      <label class="chk" style="margin-top:8px"><input type="checkbox" id="useAI"> استخدم الذكاء الاصطناعي</label>
+    </details>
+    <button id="gen">ابدأ الاختبار</button>
+  </div>
+  <div id="quiz" hidden="">
+    <div class="pbar"><i id="pfill"></i></div>
+    <div class="timer" id="timer" hidden=""></div>
+    <div id="qs"></div>
+    <div class="card big" id="result" hidden=""></div>
+    <div class="row"><button id="submit">تصحيح</button><button class="ghost" id="again">اختبار جديد</button><a class="btn ghost" href="#results" style="background:transparent;color:var(--pri);border:1px solid var(--pri)">نتائجي</a></div>
+  </div>
+</section>
+
+<section data-v="results" hidden="">
+  <h2>نتائجي</h2>
+  <div class="grid" id="stats"></div>
+  <div class="card" style="overflow-x:auto"><table class="tbl" id="hist"></table></div>
+  <button class="ghost" id="clear">مسح النتائج</button>
+</section>
+<section data-v="board" hidden=""><h2>🏆 المتصدرين</h2><p class="sub">أعلى النقاط في المنصة. كل اختبار بتحله بيقرّبك من المركز الأول.</p><label class="chk"><input type="checkbox" id="myroom"> غرفتي بس (نفس مرحلتي وكليتي)</label><div class="card" style="overflow-x:auto;margin-top:10px"><table class="tbl" id="bdy"></table></div></section>
+<section data-v="chat" hidden=""><h2>💬 الشات</h2><p class="sub">غرفتك: <b id="roomname">-</b>. اسم مستعار فقط، وممنوع الروابط وأرقام التليفونات. اضغط 🚩 للإبلاغ عن أي رسالة مسيئة.</p><div id="chatbox"></div></section>
+<section data-v="account" hidden="" id="acc"><h2>👤 حسابي</h2><p class="sub">سجّل عشان تدخل المتصدرين والشات وتحفظ نقاطك.</p><div class="card"><input class="f" id="em" placeholder="الإيميل" dir="ltr"><input class="f" type="password" id="pw" placeholder="الباسورد (6 حروف على الأقل)" dir="ltr"><div class="row"><button id="login">دخول</button><button class="ghost" id="signup">حساب جديد</button></div><div class="msg" id="am"></div></div></section>
+</main>
+<footer>SOS · منصة الاختبارات الذكية</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim();
+const STOP=new Set(('هذا هذه ذلك التي الذي الذين على الى إلى عن في من مع كان كانت يكون تكون ايضا أيضا حيث عند بعد قبل بين كل او أو ثم لكن حتى هناك التى وهو وهي that this with from have been were which their there about would could should also into than then them they what when where while these those other such only more most some very will your').split(' '));
+const dec=s=>{const t=document.createElement('textarea');t.innerHTML=s;return t.value};
+function fixAr(t){
+  const re=new RegExp('[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+','g');
+  const w=t.normalize('NFKC').match(re)||[];
+  let f=0,r=0;
+  for(const x of w){if(x.startsWith('ال')||x.endsWith('ة'))f++;if(x.endsWith('لا')||x.startsWith('ة'))r++}
+  if(w.length<20||r<=f*1.5)return t;
+  return t.replace(re,s=>[...s].reverse().join('')).replace(/\)([^()\n]*[\u0600-\u06FF][^()\n]*)\(/g,'($1)').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');
+}
+function pageText(items){
+  const lines=[];let cur=[],py=null;
+  const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6)flush();
+    cur.push(x.str);
+    if(y!==null)py=y;
+    if(x.hasEOL)flush();
+  }
+  flush();
+  const AR=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/,LT=/[A-Za-z0-9]/;
+  return lines.map(l=>{
+    if(!AR.test(l.join('')))return l.join('');
+    const runs=[];let prev=null;
+    for(const s of l){
+      const t=AR.test(s)?'R':LT.test(s)?'L':(prev||'R');
+      if(runs.length&&runs[runs.length-1].t===t)runs[runs.length-1].a.push(s);else runs.push({t,a:[s]});
+      prev=t;
+    }
+    return runs.reverse().map(r=>r.t==='R'?r.a.reverse().join(''):r.a.join('')).join('')
+      .replace(/([\u0600-\u06FF])([A-Za-z0-9])/g,'$1 $2').replace(/([A-Za-z0-9])([\u0600-\u06FF])/g,'$1 $2').replace(/[ \t]{2,}/g,' ');
+  }).join('\n');
+}
+function pageTextOld4(items){
+  const lines=[];let cur=[],py=null;
+  const flush=()=>{if(cur.length)lines.push(cur);cur=[]};
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6)flush();
+    cur.push(x.str);
+    if(y!==null)py=y;
+    if(x.hasEOL)flush();
+  }
+  flush();
+  return lines.map(l=>/[\u0600-\u06FF]/.test(l.join(''))?l.reverse().join(''):l.join('')).join('\n');
+}
+function pageTextOld3(items){
+  let out='',py=null;
+  for(const x of items){
+    if(x.str===undefined)continue;
+    const y=x.transform?x.transform[5]:null,h=x.transform?(Math.abs(x.transform[3])||10):10;
+    if(py!==null&&y!==null&&Math.abs(y-py)>h*.6&&!/\n$/.test(out))out+='\n';
+    out+=x.str;
+    if(x.hasEOL&&!/\n$/.test(out))out+='\n';
+    if(y!==null)py=y;
+  }
+  return out;
+}
+function pageTextOld2(items){
+  const it=items.filter(x=>x.transform&&x.str.trim()!=='').map(x=>({s:x.str,x:x.transform[4],y:x.transform[5],w:x.width||0,h:Math.abs(x.transform[3])||10}));
+  const lines=[];
+  it.sort((a,b)=>b.y-a.y).forEach(t=>{const l=lines.find(l=>Math.abs(l.y-t.y)<Math.max(3,t.h*.4));if(l)l.t.push(t);else lines.push({y:t.y,t:[t]})});
+  const all=[];
+  lines.forEach(l=>{
+    l.ar=/[\u0600-\u06FF\uFB50-\uFEFF]/.test(l.t.map(t=>t.s).join(''));
+    l.t.sort((a,b)=>l.ar?b.x-a.x:a.x-b.x);
+    l.g=l.t.map((t,i)=>{if(!i)return 0;const p=l.t[i-1];return (l.ar?p.x-(t.x+t.w):t.x-(p.x+p.w))/t.h});
+    l.g.slice(1).forEach(g=>all.push(Math.max(-.5,Math.min(g,2))));
+  });
+  let th=.25;
+  if(all.length>5){
+    let lo=Math.min(...all),hi=Math.max(...all);
+    for(let k=0;k<12;k++){
+      const A=all.filter(g=>Math.abs(g-lo)<=Math.abs(g-hi)),B=all.filter(g=>Math.abs(g-lo)>Math.abs(g-hi));
+      if(A.length)lo=A.reduce((a,b)=>a+b,0)/A.length;
+      if(B.length)hi=B.reduce((a,b)=>a+b,0)/B.length;
+    }
+    if(hi-lo>.15)th=Math.min(.4,Math.max((lo+hi)/2,.1));
+  }
+  return lines.map(l=>l.t.map((t,i)=>(i&&l.g[i]>th&&!/\s$/.test(l.t[i-1].s)&&!/^\s/.test(t.s)?' ':'')+t.s).join('')).join('\n');
+}
+function pageTextOld(items){
+  const it=items.filter(x=>x.str!==undefined&&x.transform).map(x=>({s:x.str,x:x.transform[4],y:x.transform[5],w:x.width||0,h:Math.abs(x.transform[3])||10}));
+  const lines=[];
+  it.sort((a,b)=>b.y-a.y).forEach(t=>{const l=lines.find(l=>Math.abs(l.y-t.y)<Math.max(3,t.h*.4));if(l)l.t.push(t);else lines.push({y:t.y,t:[t]})});
+  return lines.map(l=>{
+    const ar=/[\u0600-\u06FF\uFB50-\uFEFF]/.test(l.t.map(t=>t.s).join(''));
+    l.t.sort((a,b)=>ar?b.x-a.x:a.x-b.x);
+    let s='',prev=null;
+    for(const t of l.t){
+      if(prev){const gap=ar?prev.x-(t.x+t.w):t.x-(prev.x+prev.w);if(gap>t.h*.2&&!/\s$/.test(s)&&!/^\s/.test(t.s))s+=' '}
+      s+=t.s;prev=t;
+    }
+    return s;
+  }).join('\n');
+}
+const GR=[{min:90,l:'A+',n:'ممتاز جدا',c:'#15803d'},{min:80,l:'A',n:'ممتاز',c:'#16a34a'},{min:70,l:'C+',n:'جيد جدا',c:'#2563eb'},{min:60,l:'C',n:'جيد',c:'#d97706'},{min:0,l:'F',n:'راسب',c:'#dc2626'}];
+const grade=p=>GR.find(g=>p>=g.min);
+const badge=g=>`<span class="gb" style="background:${g.c}">${g.l}</span>`;
+const ranges=['90% - 100%','80% - 89%','70% - 79%','60% - 69%','أقل من 60%'];
+$('scale').innerHTML='<tr><th>التقدير</th><th>الوصف</th><th>النسبة</th></tr>'+GR.map((g,i)=>`<tr><td>${badge(g)}</td><td>${g.n}</td><td>${ranges[i]}</td></tr>`).join('');
+
+let Q=[],title='نص ملصوق';
+const store={get(){try{return JSON.parse(localStorage.getItem('sos_results')||'[]')}catch(e){return[]}},set(v){try{localStorage.setItem('sos_results',JSON.stringify(v))}catch(e){}}};
+// SOS usage limits (client-side counters)
+const LIMIT_GUEST=5,LIMIT_FREE_DAILY=10;
+function egyptDay(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Cairo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+function usageKey(){return ME?'sos_usage_user_'+ME.id:'sos_usage_guest'}
+function usageRead(){try{return JSON.parse(localStorage.getItem(usageKey())||'{}')}catch(e){return {}}}
+function usageWrite(v){try{localStorage.setItem(usageKey(),JSON.stringify(v))}catch(e){}}
+function isPro(){return !!(PROF&&PROF.plan==='pro'&&PROF.plan_until&&new Date(PROF.plan_until)>new Date())}
+function usageStatus(){let u=usageRead();if(ME){const day=egyptDay();if(u.day!==day)u={day,count:0};usageWrite(u);return {count:u.count||0,limit:LIMIT_FREE_DAILY,remaining:Math.max(0,LIMIT_FREE_DAILY-(u.count||0)),pro:isPro()}}return {count:u.count||0,limit:LIMIT_GUEST,remaining:Math.max(0,LIMIT_GUEST-(u.count||0)),pro:false}}
+function usageAllowed(){const st=usageStatus();if(st.pro)return true;if(st.remaining>0)return true;const msg=ME?'خلصت الـ 10 اختبارات المجانية النهارده. اشترك في SOS Pro عشان تكمل.':'خلصت الـ 5 مرات المجانية. سجّل في SOS عشان تحصل على 10 اختبارات يوميًا.';$('msg').textContent=msg;return false}
+function usageConsume(){if(isPro())return;let u=usageRead();if(ME){const day=egyptDay();if(u.day!==day)u={day,count:0};u.count=(u.count||0)+1}else u.count=(u.count||0)+1;usageWrite(u)}
+function usageHint(){const st=usageStatus();$('msg').textContent=st.pro?'👑 حساب Pro — استخدام بدون حد المجاني.':ME?`استخدامك اليوم: ${st.count}/${st.limit} اختبار مجاني.`:`استخدامك: ${st.count}/${st.limit} من التجربة المجانية.`}
+function route(){
+  let h=(location.hash||'#home').slice(1);if(!['home','quiz','results','board','chat','account'].includes(h))h='home';
+  document.querySelectorAll('[data-v]').forEach(s=>s.hidden=s.dataset.v!==h);
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.n===h));
+  if(h==='results')renderResults();
+  try{if(h==='board')loadBoard();if(h==='chat')openChat();if(h==='account')renderAcc();if(h!=='chat'&&window.CH){sb.removeChannel(window.CH);window.CH=null}}catch(e){}
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+
+function renderResults(){
+  const r=store.get();
+  if(!r.length){$('stats').innerHTML='';$('hist').innerHTML='<tr><td>لسه مفيش نتائج. <a href="#quiz">ابدأ أول اختبار</a></td></tr>';return}
+  const avg=Math.round(r.reduce((a,x)=>a+x.pct,0)/r.length),best=Math.max(...r.map(x=>x.pct));
+  $('stats').innerHTML=[['عدد الاختبارات',r.length],['المتوسط',avg+'% '+grade(avg).l],['أعلى درجة',best+'%']].map(([k,v])=>`<div class="card big"><div class="sub">${k}</div><div class="sc">${v}</div></div>`).join('');
+  $('hist').innerHTML='<tr><th>المحاضرة</th><th>الدرجة</th><th>التقدير</th><th>التاريخ</th></tr>'+r.slice().reverse().map(x=>{const g=grade(x.pct);return `<tr><td dir="auto">${esc(x.t)}</td><td>${x.s}/${x.n} (${x.pct}%)</td><td>${badge(g)} ${g.n}</td><td>${esc(x.d)}</td></tr>`}).join('');
+}
+$('clear').onclick=()=>{if(confirm('مسح كل النتائج؟')){store.set([]);renderResults()}};
+
+function loadScript(u){return new Promise((ok,no)=>{if(window.Tesseract)return ok();const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=()=>no(new Error('تعذّر تحميل مكتبة OCR (محتاج إنترنت)'));document.head.appendChild(s)})}
+async function ocrPdf(pdf){
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.2/tesseract.min.js');
+  const n=Math.min(pdf.numPages,40);
+  $('msg').textContent='تجهيز OCR (أول مرة قد ينزّل بيانات اللغة)...';
+  const worker=await Tesseract.createWorker('ara+eng',1,{workerPath:'https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.2/worker.min.js'});
+  const out=[];
+  try{
+    for(let i=1;i<=n;i++){
+      $('msg').textContent='OCR سريع: صفحة '+i+' من '+n+'...';
+      const page=await pdf.getPage(i),vp=page.getViewport({scale:1.45}),c=document.createElement('canvas');
+      c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
+      await page.render({canvasContext:c.getContext('2d',{willReadFrequently:false}),viewport:vp}).promise;
+      const r=await worker.recognize(c);
+      out.push('⟦p'+i+'⟧\n'+r.data.text);
+      c.width=0;c.height=0;page.cleanup?.();
+      if(i%2===0)await new Promise(resolve=>setTimeout(resolve,0));
+    }
+  }finally{await worker.terminate()}
+  if(pdf.numPages>n)out.push('\n(اتقرأت أول '+n+' صفحة بس)');
+  return out.join('\n');
+}
+async function readFile(f){
+  const n=f.name.toLowerCase();
+  if(/\.(txt|md)$/.test(n))return f.text();
+  const buf=await f.arrayBuffer();
+  if(n.endsWith('.pdf')){
+    try{pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js'}catch(e){}
+    const pdf=await pdfjsLib.getDocument({data:buf,disableAutoFetch:true,disableFontFace:true}).promise;
+    const out=new Array(pdf.numPages);let next=1,done=0;
+    const extractWorker=async()=>{while(true){const i=next++;if(i>pdf.numPages)return;const page=await pdf.getPage(i);const c=await page.getTextContent({disableCombineTextItems:false});out[i-1]='⟦p'+i+'⟧\n'+pageText(c.items);page.cleanup?.();done++;if(done%5===0||done===pdf.numPages)$('msg').textContent='استخراج النص: '+done+' من '+pdf.numPages+' صفحة...';if(done%4===0)await new Promise(resolve=>setTimeout(resolve,0));}};
+    await Promise.all(Array.from({length:Math.min(5,pdf.numPages)},extractWorker));
+    let text=fixAr(out.join('\n'));
+    if($('ocr').checked||!textQuality(sanitize(text.replace(/⟦p\d+⟧/g,'\n'))).ok){
+      try{return await ocrPdf(pdf)}catch(e){$('msg').textContent='تعذر OCR: '+e.message+' — هستخدم القراءة العادية.'}
+    }
+    return text;
+  }
+  const zip=await JSZip.loadAsync(buf);
+  const grab=(xml,tag,para)=>xml.split(para).map(p=>[...p.matchAll(new RegExp('<'+tag+'[^>]*>([^<]*)</'+tag+'>','g'))].map(m=>dec(m[1])).join('')).filter(Boolean).map(s=>/[.!?؟]$/.test(s.trim())?s:s+'.').join('\n');
+  if(n.endsWith('.docx'))return grab(await zip.file('word/document.xml').async('string'),'w:t','</w:p>');
+  if(n.endsWith('.pptx')){
+    const names=Object.keys(zip.files).filter(k=>/^ppt\/slides\/slide\d+\.xml$/.test(k)).sort((a,b)=>a.match(/\d+/)[0]-b.match(/\d+/)[0]);
+    let out=[];for(const k of names)out.push(grab(await zip.file(k).async('string'),'a:t','</a:p>'));
+    return out.join('\n');
+  }
+  throw new Error('نوع الملف مش مدعوم');
+}
+$('file').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  $('msg').textContent='جاري قراءة الملف...';
+  try{const t=await readFile(f);$('text').value=t.normalize('NFKC');title=f.name;if(t.replace(/\s|⟦p\d+⟧/g,'').length<50){$('msg').textContent='الملف مفيهوش نص كفاية (ممكن يكون صور أو سكان). جرّب Word أو الصق النص.';return}$('msg').textContent='تم تحميل '+f.name+' ('+t.length+' حرف)'}
+  catch(err){$('msg').textContent='مقدرتش أقرأ الملف: '+err.message+' — جرّب تلصق النص.'}
+};
+
+/*GEN_START*/
+let DONE=false;
+const same=(a,b)=>{const f=s=>norm(s).replace(/[^\p{L}\p{N}\s]/gu,'').replace(/\s+/g,' ').replace(/^ال/,'').trim();return f(b)!==''&&f(a)===f(b)};
+const TOK=/[\p{L}\p{M}\p{N}]+/gu;
+const META_RE=/(تأليف|تاليف|إعداد|اعداد|مؤلف|المؤلفون|مراجعة|مراجعه|إشراف|اشراف|تحرير|تدقيق|مدير|وكيل|وزير|وزارة|رئيس|الدكتور|الدكتورة|أ\.\s?د|الأستاذ|الاستاذ|حقوق الطبع|جميع الحقوق|الطبعة|الإيداع|تقديم|إهداء|اهداء|شكر وتقدير|copyright|all rights reserved|prepared by|written by|isbn)/i;
+const DEF=/(هو|هي|هم|يعرف|تعرف|تعني|يعني|يعد|يعتبر|تعتبر|يتكون|تتكون|يسمى|تسمى|يهدف|تهدف|يؤدي|تؤدي|ينتج|بسبب|نتيجة|\bis\b|\bare\b|\bmeans\b|refers to|defined as|consists of|called|because|results in|leads to)/i;
+const MK2=/\(\s*(صح|خطأ|خطا)\s*\)|(صح|خطأ|خطا)\s*\(|\(\s*([✓✔√✗✘×xX])\s*\)|([✓✔√✗✘×])/;
+function cleanLines(text){
+  const lines=text.split('\n').map(l=>l.trim()),cnt={};
+  lines.forEach(l=>{const k=norm(l);if(k&&l.length<90)cnt[k]=(cnt[k]||0)+1});
+  const lens=lines.filter(Boolean).map(l=>l.length).sort((a,b)=>a-b),med=lens[lens.length>>1]||0;
+  return lines.filter(l=>{
+    if(!l)return true;
+    if(/صح|خطأ|✓|✗/.test(l))return true;
+    if(cnt[norm(l)]>=3&&l.length<90)return false;
+    if(/^[\d\s.\-–—\/|·•]+$/.test(l))return false;
+    if(/^(page|slide|صفحة|شريحة)\s*\d+/i.test(l))return false;
+    if(l.length<Math.min(60,med*.6)&&!/[.!?؟:)\]]$/.test(l))return false;
+    return true;
+  }).join('\n');
+}
+function repTok(s,ans,rep){
+  const re=/[\p{L}\p{M}\p{N}]+/gu,k=norm(ans);let m;
+  while((m=re.exec(s))){if(norm(m[0])===k)return s.slice(0,m.index)+rep+s.slice(m.index+m[0].length)}
+  return s;
+}
+function sanitize(t){
+  return String(t).normalize('NFKC')
+    .replace(/\(cid:\d+\)/gi,'')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF\uFFFC\uFFFD\uE000-\uF8FF]/g,'')
+    .replace(/(\p{L})-\n(\p{Ll})/gu,'$1$2')
+    .replace(/https?:\/\/\S+|www\.\S+|\S+@\S+\.\S+/g,' ')
+    .replace(/[ \t]{2,}/g,' ');
+}
+function textQuality(t){
+  const tk=t.match(TOK)||[];if(tk.length<30)return{ok:true};
+  const arab=tk.filter(w=>/[\u0600-\u06FF]/.test(w));
+  if(arab.length>30){
+    const single=arab.filter(w=>w.length===1&&!/^[\u0648\u0641\u0628\u0643\u0644]$/.test(w)).length;
+    if(single/arab.length>.12)return{ok:false,why:'حروف عربية مفصولة'};
+    if(arab.filter(w=>w.length>18).length/arab.length>.08)return{ok:false,why:'كلمات ملزوقة في بعض'};
+    let f=0,r=0;arab.forEach(x=>{if(x.startsWith('ال')||x.endsWith('ة'))f++;if(x.endsWith('لا')||x.startsWith('ة'))r++});
+    if(r>f*1.2)return{ok:false,why:'ترتيب الحروف معكوس'};
+  }
+  const sym=(t.match(/[^\p{L}\p{N}\s.,;:!?()\-–'"،؛؟%\/+=*<>_\[\]{}…✓✗✔✘]/gu)||[]).length;
+  if(sym/t.length>.06)return{ok:false,why:'رموز غريبة كتير'};
+  return{ok:true};
+}
+const BAD_Q=/(\u27e6|\u27e7|cid:|undefined|NaN|\[object|\{\{|\}\}|حسب النص|كما ورد|في الفقرة|according to (the )?(text|passage|lecture)|all of the above|none of the above|كل ما سبق|لا شيء مما سبق)/i;
+function validQ(q,strictMath){
+  if(!q||!q.q||!['mcq','tf','sh'].includes(q.type))return false;
+  const s=String(q.q);
+  if(s.length<20||s.length>300||BAD_Q.test(s))return false;
+  if(strictMath&&/[=∑∫√±÷^{}\\|]/.test(s))return false;
+  if((s.match(/\p{L}/gu)||[]).length/s.length<.6)return false;
+  if(q.a===undefined||String(q.a).trim()==='')return false;
+  if(q.type==='mcq'&&(!Array.isArray(q.opts)||q.opts.length!==4||q.opts.some(o=>!o||String(o).length>90||BAD_Q.test(String(o)))))return false;
+  return true;
+}
+const QRULES=' قواعد جودة الصياغة: اكتب السؤال كسؤال طبيعي مكتمل (ما/لماذا/كيف/ما الفرق بين/أي مما يلي) ويُفهم لوحده بدون الرجوع للنص، ولا تستخدم عبارات زي "حسب النص" أو "كما ورد". سؤال واحد = فكرة واحدة. في mcq الخيارات الثلاثة الخاطئة لازم تكون معقولة ومن نفس النوع والمجال وبطول متقارب، وممنوع "كل ما سبق" و"لا شيء مما سبق". وزّع مكان الإجابة الصحيحة عشوائيا. تجاهل أي معادلات أو رموز أو أرقام صفحات أو نصوص مكسورة، ولا تسأل عن أرقام عشوائية أو شكل الملف أو أسماء أشخاص. في sh الإجابة مصطلح محدد قصير بدون لبس. اجعل السؤال من 15 إلى 40 كلمة.';
+$('text').addEventListener('input',()=>{window.FORCE=false});
+function build(text,count,types){
+  const skip=Math.max(0,+$('skipPages').value||0);
+  if(skip>0){const parts=text.split(/⟦p\d+⟧/);if(parts.length>2)text=parts.slice(Math.min(skip,parts.length-2)+1).join('\n')}
+  text=cleanLines(sanitize(text.replace(/⟦p\d+⟧/g,'\n')));
+  const dropMeta=$('skipMeta').checked;
+  const raw=text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim());
+  const freq={},orig={};
+  (text.match(TOK)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
+  const ranked=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]),generic=new Set(ranked.slice(0,3)),pool=ranked.slice(0,200);
+  const marked=[],cands=[];
+  raw.forEach((s,idx)=>{
+    if(s.length<35||s.length>320)return;
+    if(dropMeta&&META_RE.test(s))return;
+    const m=MK2.exec(s);
+    if(m){
+      const w=m[1]||m[2]||m[3]||m[4],ok=/صح|✓|✔|√/.test(w),front=m.index<12;
+      let st=front?s.slice(m.index+m[0].length):s.slice(0,m.index),rest=front?'':s.slice(m.index+m[0].length);
+      st=st.replace(/^[\s\d٠-٩.\-–)(]+/,'').replace(/[\s\-–(]+$/,'');
+      rest=rest.replace(/^[\s\-–:()خطأصحxX✗✘×✓✔√]+/,'').trim();
+      if(st.length>=15&&(st.match(TOK)||[]).length>=4)marked.push({type:'tf',q:st,a:ok?'صح':'خطأ',src:rest.length>10?rest:''});
+      return;
+    }
+    const w=s.match(TOK)||[];
+    if(w.length<6||w.length>45)return;
+    if((s.match(/\p{L}/gu)||[]).length/s.length<.6)return;
+    if(/[=∑∫√±÷^{}\\|<>]/.test(s)||(s.match(/\d/g)||[]).length/s.length>.15)return;
+    if(/[,،:؛\-–]$/.test(s)||/^[a-z]/.test(s))return;
+    const toks=w.map(norm);
+    const cs=w.filter((x,i)=>{const k=norm(x);return freq[k]&&!generic.has(k)&&i>1&&toks.filter(t=>t===k).length===1});
+    if(!cs.length)return;
+    cands.push({s,idx,w,toks,cs,score:(DEF.test(s)?3:0)+(w.length>=8&&w.length<=30?2:0)+(/\d/.test(s)?1:0)+Math.min(cs.length,3)*.5});
+  });
+  const val=k=>Math.min(k.length,10)/5+(freq[k]>=2?1.5:0)-(freq[k]>15?1:0)-(k.startsWith('و')&&k.length>4?1.5:0);
+  const mq=types.includes('tf')?marked.slice(0,count):[];
+  const gen=[],seen=[];
+  function mk(c,type,n){
+    const ans=c.cs.slice().sort((a,b)=>val(norm(b))-val(norm(a)))[0],k=norm(ans);
+    const dis=pool.filter(p=>p!==k&&!c.toks.includes(p)&&Math.abs(orig[p].length-ans.length)<=4&&orig[p].startsWith('ال')===ans.startsWith('ال')&&!k.includes(p)&&!p.includes(k)).sort((a,b)=>Math.abs(orig[a].length-ans.length)-Math.abs(orig[b].length-ans.length)||freq[b]-freq[a]).slice(0,3).map(p=>orig[p]);
+    if(type==='mcq'&&dis.length===3)return{type,q:repTok(c.s,ans,'_____'),opts:shuffle([ans,...dis]),a:ans,src:'الجملة الأصلية: '+c.s};
+    if(type==='tf'&&dis.length){const t=n%2===0;return{type,q:t?c.s:repTok(c.s,ans,dis[0]),a:t?'صح':'خطأ',src:t?'':'الجملة الأصلية: '+c.s}}
+    if(type==='sh')return{type,q:repTok(c.s,ans,'_____'),a:ans,src:'الجملة الأصلية: '+c.s};
+    return null;
+  }
+  for(const c of cands.sort((a,b)=>b.score-a.score||a.idx-b.idx)){
+    if(gen.length>=Math.max(0,count-mq.length))break;
+    const set=new Set(c.toks.filter(t=>freq[t]));
+    if(seen.some(o=>{let i=0;set.forEach(t=>{if(o.has(t))i++});return i/(set.size+o.size-i)>.55}))continue;
+    const pref=types[gen.length%types.length];let q=null;
+    for(const t of [pref,...types.filter(t=>t!==pref)]){q=mk(c,t,gen.length);if(q)break}
+    if(!q)continue;
+    q._i=c.idx;gen.push(q);seen.push(set);
+  }
+  gen.sort((a,b)=>a._i-b._i);
+  return [...mq,...gen].filter(q=>validQ(q,true));
+}
+$('clrKey').onclick=()=>{try{localStorage.removeItem('sos_key')}catch(e){}$('apiKey').value='';$('msg').textContent='اتمسح المفتاح من متصفحك.'};
+/*GEN_END*/
+function buildLegacy(text,count,types){
+  const skip=Math.max(0,+$('skipPages').value||0);
+  if(skip>0){const parts=text.split(/⟦p\d+⟧/);if(parts.length>1)text=parts.slice(skip+1).join('\n')}
+  text=text.replace(/⟦p\d+⟧/g,'\n');
+  const META=/(تأليف|تاليف|إعداد|اعداد|مؤلف|المؤلفون|مراجعة|مراجعه|إشراف|اشراف|تحرير|تدقيق|مدير|وكيل|وزير|وزارة|رئيس|الدكتور|الدكتورة|أ\.\s?د|الأستاذ|الاستاذ|حقوق الطبع|جميع الحقوق|الطبعة|الإيداع|ISBN|تقديم|إهداء|اهداء|شكر وتقدير)/;
+  const sents=[...new Set(text.split(/(?<=[.!?؟。])\s+|(?<=\))[ \t]*\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(s=>s.length>=35&&s.length<=300&&!($('skipMeta').checked&&META.test(s))))];
+  const MK=/\(\s*(صح|خطأ|خطا)\s*\)|(صح|خطأ|خطا)\s*\(|\(\s*([✓✔√✗✘×xX])\s*\)|([✓✔√✗✘×])/;
+  const marked=[],plain=[];
+  for(const s of sents){
+    const m=MK.exec(s);
+    if(!m){plain.push(s);continue}
+    const w=m[1]||m[2]||m[3]||m[4],ok=/صح|✓|✔|√/.test(w),front=m.index<12;
+    let st=front?s.slice(m.index+m[0].length):s.slice(0,m.index),rest=front?'':s.slice(m.index+m[0].length);
+    st=st.replace(/^[\s\d٠-٩.\-–)(]+/,'').replace(/[\s\-–(]+$/,'');
+    rest=rest.replace(/^[\s\-–:()خطأصحxX✗✘×✓✔√]+/,'').trim();
+    if(st.length>=15)marked.push({type:'tf',q:st,a:ok?'صح':'خطأ',src:rest.length>10?rest:''});
+  }
+  const freq={},orig={};
+  (text.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).forEach(w=>{const k=norm(w);orig[k]=orig[k]||w;if(w.length>=4&&!STOP.has(k)&&!/^\d+$/.test(k))freq[k]=(freq[k]||0)+1});
+  const pool=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,80);
+  const out=types.includes('tf')?shuffle(marked).slice(0,count):[];let ti=0;
+  for(const s of shuffle(plain)){
+    if(out.length>=count)break;
+    const words=(s.match(/[\p{L}\p{M}\p{N}]+/gu)||[]).filter(w=>pool.includes(norm(w)));
+    if(!words.length)continue;
+    const ans=words.sort((a,b)=>freq[norm(b)]-freq[norm(a)])[Math.random()*Math.min(2,words.length)|0];
+    const others=shuffle(pool.filter(k=>k!==norm(ans))).slice(0,3).map(k=>orig[k]);
+    const blank=s.replace(ans,'_____'),type=types[ti++%types.length];
+    if(type==='mcq'&&others.length===3)out.push({type,q:blank,opts:shuffle([ans,...others]),a:ans});
+    else if(type==='tf'&&others.length){const t=Math.random()<.5;out.push({type,q:t?s:s.replace(ans,others[0]),a:t?'صح':'خطأ',src:s})}
+    else out.push({type:'sh',q:blank,a:ans});
+  }
+  return out;
+}
+function render(){
+  $('qs').innerHTML=Q.map((x,i)=>{
+    let body='';
+    if(x.type==='mcq')body=x.opts.map(o=>`<label class="opt"><input type="radio" name="q${i}" value="${esc(o)}"><span dir="auto">${esc(o)}</span></label>`).join('');
+    else if(x.type==='tf')body=['صح','خطأ'].map(o=>`<label class="opt"><input type="radio" name="q${i}" value="${o}"><span>${o}</span></label>`).join('');
+    else body=`<input type="text" name="q${i}" dir="auto" placeholder="اكتب الكلمة الناقصة" style="width:100%">`;
+    const head=x.type==='tf'?'صح ولا خطأ؟':x.type==='mcq'?'اختر الإجابة الصحيحة (الفراغ):':'أكمل الفراغ:';
+    return `<div class="card q" id="c${i}"><div class="n">سؤال ${i+1} · ${head}</div><div class="t" dir="auto">${esc(x.q)}</div>${body}<div class="fb" id="f${i}"></div></div>`;
+  }).join('');
+}
+const ARW=/[\u0621-\u065F\u066E-\u06D3\u06FA-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g;
+$('fixLetters').onclick=()=>{const t=$('text');t.value=t.value.replace(ARW,s=>[...s].reverse().join('')).replace(/\)([^()\n]*[\u0600-\u06FF][^()\n]*)\(/g,'($1)').replace(/([\u0623\u0625\u0622])\u0627\u0644/g,'\u0627\u0644$1');$('msg').textContent='تم قلب حروف الكلمات. راجع النص، ولو بقى أسوأ اضغط الزرار تاني.'};
+$('fixWords').onclick=()=>{const t=$('text');t.value=t.value.split('\n').map(l=>/[\u0600-\u06FF]/.test(l)?l.split(/\s+/).reverse().join(' '):l).join('\n');$('msg').textContent='تم قلب ترتيب الكلمات في كل سطر.'};
+try{$('apiKey').value=localStorage.getItem('sos_key')||''}catch(e){}
+async function aiVerify(key,src,qs){
+  const list=qs.map((q,i)=>({i,type:q.type,q:q.q,options:q.opts,answer:q.a}));
+  const sys='أنت مدقق جودة صارم. اقرأ المحاضرة والأسئلة. لكل سؤال قرّر هل هو سليم: (1) إجابته موجودة صراحة في المحاضرة، (2) إجابة صحيحة واحدة فقط، (3) السؤال كامل ومفهوم لوحده، (4) مش مبني على عنوان أو بيانات مؤلف أو هامش، (5) مش مكرر. رجّع JSON فقط: {"verdicts":[{"i":0,"ok":true,"issue":""}]} ولا تعدّل الأسئلة.';
+  const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'gpt-4o-mini',temperature:0,response_format:{type:'json_object'},messages:[{role:'system',content:sys},{role:'user',content:'المحاضرة:\n'+src+'\n\nالأسئلة:\n'+JSON.stringify(list)}]})});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const j=JSON.parse((await r.json()).choices[0].message.content);
+  const bad=new Set((Array.isArray(j.verdicts)?j.verdicts:[]).filter(v=>v&&v.ok===false).map(v=>v.i));
+  return qs.filter((q,i)=>!bad.has(i));
+}
+async function aiBuild(text,n,types){
+  const key=$('apiKey').value.trim();
+  if(!key){$('msg').textContent='اكتب مفتاح OpenAI الأول.';return[]}
+  try{localStorage.setItem('sos_key',key)}catch(e){}
+  $('msg').textContent='الذكاء الاصطناعي بيقرا المحاضرة... ممكن ياخد نص دقيقة.';
+  const kinds={mcq:'mcq (اختيار من متعدد، 4 اختيارات مختلفة)',tf:'tf (صح/خطأ)',sh:'sh (أكمل، الإجابة كلمة أو كلمتين)'};
+  const src=cleanLines(sanitize(text.replace(/⟦p\d+⟧/g,'\n'))).slice(0,24000);
+  const sys='أنت مدرّس خبير. استخدم محتوى المحاضرة المرفقة فقط كمصدر وحيد للحقائق، ولا تضف أي معلومة من خارجها. تجاهل العناوين والغلاف وأسماء المؤلفين والمديرين والوزارة وأرقام الصفحات وأي نص غير تعليمي. النص قد يكون فيه أخطاء استخراج (حروف أو كلمات مبعترة) فافهمه صح. لو فيه أسئلة صح/خطأ جاهزة بإجاباتها استخدمها. اكتب حتى '+n+' سؤال واضح ومباشر بعربية سليمة يقيس الفهم مش الحفظ الحرفي، بدون تكرار. لو المحاضرة مش كفاية رجّع أقل ولا تألّف. لكل سؤال رجّع حقل evidence: عبارة قصيرة (3 إلى 12 كلمة) منقولة حرفيا من المحاضرة تثبت الإجابة. الأنواع المسموحة: '+types.map(t=>kinds[t]).join(' و ')+'. رجّع JSON فقط بالشكل {"questions":[{"type":"mcq|tf|sh","q":"","options":[""],"answer":"","evidence":"","explain":""}]}. في tf الإجابة "صح" أو "خطأ". في mcq الإجابة لازم تطابق خيار واحد بالظبط.';
+  try{
+    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'gpt-4o-mini',temperature:0.3,response_format:{type:'json_object'},messages:[{role:'system',content:sys+QRULES},{role:'user',content:src}]})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=JSON.parse((await r.json()).choices[0].message.content);
+    const lt=new Set((src.match(TOK)||[]).map(norm));
+    const grounded=ev=>{const w=(String(ev).match(TOK)||[]).map(norm);return w.length>=2&&w.filter(x=>lt.has(x)).length/w.length>=.7};
+    const seen=new Set(),out=[];let rej=0;
+    for(const x of (Array.isArray(j.questions)?j.questions:[])){
+      try{
+        const q=String((x&&x.q)||'').trim(),a=String((x&&x.answer)||'').trim(),key2=norm(q);
+        if(q.length<10||!a||!types.includes(x.type)||seen.has(key2)||!grounded(x.evidence||''))throw 0;
+        if(x.type==='mcq'){
+          const o=(Array.isArray(x.options)?x.options:[]).map(v=>String(v).trim()).filter(Boolean);
+          if(o.length!==4||new Set(o.map(norm)).size!==4||o.filter(v=>norm(v)===norm(a)).length!==1)throw 0;
+          out.push({type:'mcq',q,opts:shuffle(o),a:o.find(v=>norm(v)===norm(a)),src:x.explain});
+        }else if(x.type==='tf'){
+          const t=/^(صح|صحيح|true)/i.test(a)?'صح':/^(خطأ|خطا|غلط|false)/i.test(a)?'خطأ':null;
+          if(!t)throw 0;out.push({type:'tf',q,a:t,src:x.explain});
+        }else{
+          if(a.split(/\s+/).length>5)throw 0;out.push({type:'sh',q,a,src:x.explain});
+        }
+        seen.add(key2);
+      }catch(e){rej++}
+    }
+    if(!out.length)throw new Error('مفيش أسئلة سليمة في رد الذكاء الاصطناعي');
+    $('msg').textContent=rej?('اتشالت '+rej+' سؤال مش مطابق للمحاضرة أو مش سليم.'):'';
+    const fin=out.filter(q=>validQ(q,false));
+    if(!fin.length)throw new Error('الأسئلة ما اجتازتش فحص الجودة');
+    let ver=fin,note='';
+    try{ver=await aiVerify(key,src,fin);if(fin.length>ver.length)note=' | التدقيق رفض '+(fin.length-ver.length)+' سؤال'}catch(e){note=' | تعذّر التدقيق الإضافي'}
+    if(!ver.length)throw new Error('التدقيق رفض كل الأسئلة');
+    $('msg').textContent=($('msg').textContent+note).trim();
+    return ver.slice(0,n);
+  }catch(e){
+    $('msg').textContent='تعذر الذكاء الاصطناعي ('+e.message+')، استخدمت الوضع العادي.';
+    return build(text,n,types);
+  }
+}
+async function aiBuildOld(text,n,types){
+  const key=$('apiKey').value.trim();
+  if(!key){$('msg').textContent='اكتب مفتاح OpenAI الأول.';return[]}
+  try{localStorage.setItem('sos_key',key)}catch(e){}
+  $('msg').textContent='الذكاء الاصطناعي بيقرا المحاضرة... ممكن ياخد نص دقيقة.';
+  const kinds={mcq:'mcq (اختيار من متعدد، 4 اختيارات)',tf:'tf (صح/خطأ)',sh:'sh (أكمل، إجابة من كلمة أو اتنين)'};
+  const sys='أنت مدرّس خبير. هتاخد نص محاضرة قد يكون فيه أخطاء استخراج (حروف أو كلمات معكوسة أو ملزوقة)، صلّحها في ذهنك. تجاهل الغلاف والمقدمة وأسماء المؤلفين والمديرين والوزارة وأرقام الصفحات. لو في النص أسئلة صح/خطأ جاهزة بإجاباتها استخدمها كأسئلة سليمة بدل ما تسأل عن كلمات منها. اكتب '+n+' سؤال بعربية فصحى سليمة تقيس الفهم مش الحفظ الحرفي، وزّعهم على الأنواع: '+types.map(t=>kinds[t]).join(' و ')+'. رجّع JSON فقط بالشكل {"questions":[{"type":"mcq|tf|sh","q":"","options":[""],"answer":"","explain":""}]}. في tf الإجابة "صح" أو "خطأ". في mcq الإجابة لازم تطابق واحد من options.';
+  try{
+    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'gpt-4o-mini',response_format:{type:'json_object'},messages:[{role:'system',content:sys},{role:'user',content:text.replace(/⟦p\d+⟧/g,'\n').slice(0,24000)}]})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=JSON.parse((await r.json()).choices[0].message.content);
+    const out=(j.questions||[]).map(x=>{
+      if(!x||!x.q||!x.answer)return null;
+      if(x.type==='mcq'&&Array.isArray(x.options)&&x.options.includes(x.answer))return{type:'mcq',q:x.q,opts:shuffle(x.options),a:x.answer,src:x.explain};
+      if(x.type==='tf')return{type:'tf',q:x.q,a:/صح/.test(x.answer)?'صح':'خطأ',src:x.explain};
+      if(x.type==='sh')return{type:'sh',q:x.q,a:x.answer,src:x.explain};
+      return null;
+    }).filter(Boolean);
+    if(!out.length)throw new Error('رد فاضي');
+    $('msg').textContent='';return out;
+  }catch(e){
+    $('msg').textContent='تعذر الذكاء الاصطناعي ('+e.message+')، استخدمت الوضع العادي.';
+    return build(text,n,types);
+  }
+}
+const root=document.documentElement;
+function setTheme(t){root.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('sos_theme',t)}catch(e){}}
+try{setTheme(localStorage.getItem('sos_theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))}catch(e){setTheme('light')}
+$('themeBtn').onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
+const S={get(){try{return JSON.parse(localStorage.getItem('sos_stats')||'{}')}catch(e){return{}}},set(v){try{localStorage.setItem('sos_stats',JSON.stringify(v))}catch(e){}}};
+const lvl=xp=>Math.floor(xp/100)+1;
+function chip(){const s=S.get();$('chip').textContent='🔥'+(s.streak||0)+' · ⭐'+lvl(s.xp||0)}
+function boom(){for(let i=0;i<36;i++){const e=document.createElement('span');e.className='cf';e.textContent=['🎉','✨','⭐','💚'][i%4];e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}}
+function reward(score,pct){
+  const s=S.get(),t=new Date().toISOString().slice(0,10);let xp=score*10+(pct>=80?20:0);
+  if(s.last!==t){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);s.streak=s.last===y?(s.streak||0)+1:1;s.last=t;xp+=10}
+  const before=lvl(s.xp||0);s.xp=(s.xp||0)+xp;S.set(s);chip();
+  if(pct>=80)boom();syncResult(score);
+  const up=lvl(s.xp)>before?'<div class="sc">🎉 ترقيت للمستوى '+lvl(s.xp)+'!</div>':'';
+  const msg=pct>=90?'أسطورة! كمّل كده 🔥':pct>=70?'شغل جامد، قريب جدا من القمة 💪':pct>=50?'بداية كويسة، جرّب تاني وهتتحسن 👌':'متزعلش، الأخطاء هي أسرع طريق للفهم 🌱';
+  return '<div class="sub" style="margin:8px 0 0">+'+xp+' نقطة XP · '+msg+'</div>'+up+'<div class="xpbar"><i style="width:'+(s.xp%100)+'%"></i></div>';
+}
+function upd(){let n=0;Q.forEach((x,i)=>{const c=$('c'+i);if(c&&(c.querySelector('input:checked')||(c.querySelector('input[type=text]')||{}).value))n++});$('pfill').style.width=(Q.length?n/Q.length*100:0)+'%'}
+$('qs').addEventListener('input',upd);
+chip();
+const SB_URL='https://nxqtsuvexcppephnqijg.supabase.co',SB_KEY='sb_publishable_D2b7vr5CiJ6E3_BuUiAoAw_yTEMB2n5';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+let ME=null,PROF=null;
+const STAGES=['ثانوي','جامعي','دراسات عليا'],YEARS=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة'],FIELDS=['حاسبات ومعلومات','ذكاء اصطناعي (AI)','هندسة','طب','أسنان','صيدلة','علاج طبيعي','علوم','تجارة','حقوق','آداب','تربية','طب بيطري','علمي علوم','علمي رياضة','أدبي','أخرى'];
+const opts=a=>a.map(x=>'<option>'+x+'</option>').join('');
+const optsSel=(a,v)=>a.map(x=>'<option'+(x===v?' selected':'')+'>'+x+'</option>').join('');
+const roleTag=r=>r==='vip'?' <span class="vip-badge">✦ VIP</span>':r==='owner'?' <span class="own">OWNER👑</span>':'';
+const roomOf=p=>p.stage+'|'+p.year+'|'+p.field;
+async function loadMe(){
+  const {data}=await sb.auth.getSession();ME=data.session?data.session.user:null;PROF=null;
+  if(ME){const r=await sb.from('profiles').select('*').eq('id',ME.id).maybeSingle();PROF=r.data}
+  renderAcc();usageHint();
+}
+sb.auth.onAuthStateChange(()=>setTimeout(loadMe,0));
+async function auth(m){
+  const email=$('em').value.trim().toLowerCase(),password=$('pw').value;
+  if(!email||!password){$('am').textContent='اكتب الإيميل والباسورد الأول.';return}
+  if(!/^\S+@\S+\.\S+$/.test(email)){$('am').textContent='اكتب بريد إلكتروني صحيح.';return}
+  if(m==='up'&&password.length<6){$('am').textContent='الباسورد لازم 6 أحرف على الأقل.';return}
+  const btn=$(m==='in'?'login':'signup');if(btn){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent='جاري التنفيذ...'}
+  $('am').textContent='...';
+  try{
+    const r=m==='in'?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password});
+    if(r.error){const e=r.error.message;$('am').textContent=/Invalid login/i.test(e)?'الإيميل أو الباسورد غلط':/already registered|already exists/i.test(e)?'الإيميل ده مسجّل قبل كده، اضغط دخول':/Email not confirmed/i.test(e)?'لسه ما أكّدتش إيميلك، افتح الإيميل واضغط على رابط التأكيد':e;return}
+    if(m==='up'&&!r.data.session)$('am').textContent='تم إنشاء الحساب! لو تأكيد البريد مفعّل، افتح رسالة التأكيد. ولو غير مفعّل هتدخل مباشرة.';
+  }catch(e){$('am').textContent='حصل خطأ أثناء الاتصال. جرّب تاني.'}
+  finally{if(btn){btn.disabled=false;btn.textContent=btn.dataset.old|| (m==='in'?'دخول':'حساب جديد')}}
+}
+async function resetPassword(){
+  const email=$('em').value.trim().toLowerCase();
+  if(!/^\S+@\S+\.\S+$/.test(email)){$('am').textContent='اكتب بريدك الإلكتروني الصحيح الأول.';return}
+  $('am').textContent='جاري إرسال رابط استعادة كلمة المرور...';
+  try{const r=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});$('am').textContent=r.error?'تعذّر إرسال رابط الاستعادة: '+r.error.message:'لو البريد مسجّل، هيوصلك رابط استعادة كلمة المرور. راجع صندوق الوارد والرسائل غير المرغوب فيها.'}
+  catch(e){$('am').textContent='تعذّر إرسال رابط الاستعادة. حاول تاني.'}
+}
+
+function renderAcc(){
+  const el=$('acc');if(!el)return;
+  if(!ME){
+    el.innerHTML='<h2>👤 حسابي</h2><p class="sub">إنشاء حساب وتسجيل دخول مباشرة بالبريد الإلكتروني وكلمة المرور — بدون GitHub.</p><div class="card"><input class="f" id="em" type="email" autocomplete="email" placeholder="الإيميل" dir="ltr"><input class="f" type="password" id="pw" autocomplete="current-password" placeholder="الباسورد (6 أحرف على الأقل)" dir="ltr"><div class="row"><button id="login">دخول</button><button class="ghost" id="signup">حساب جديد</button><button class="ghost" id="resetpw">نسيت كلمة المرور؟</button></div><div class="msg" id="am"></div></div>';
+    $('login').onclick=()=>auth('in');$('signup').onclick=()=>auth('up');$('resetpw').onclick=resetPassword;return;
+  }
+  if(!PROF){
+    el.innerHTML='<h2>كمّل بياناتك</h2><div class="card"><p class="sub">الغرفة بتتحدد بمرحلتك وسنتك وتخصصك. اختار بياناتك بدقة؛ التخصص والمرحلة والسنة هتثبت بعد إنشاء الحساب.</p><input class="f" id="nk" maxlength="20" placeholder="اسم مستعار (3 لـ 20 حرف، مش اسمك الحقيقي)"><div class="row"><select id="sg">'+opts(STAGES)+'</select><select id="yr">'+opts(YEARS)+'</select><select id="fl">'+opts(FIELDS)+'</select></div><button id="mk">حفظ</button><div class="msg" id="am"></div></div>';
+    $('mk').onclick=async()=>{const r=await sb.rpc('create_profile',{p_nick:$('nk').value,p_stage:$('sg').value,p_year:$('yr').value,p_field:$('fl').value});if(r.error){const e=r.error.message;if(/profiles_pkey/.test(e)){$('am').textContent='حسابك متسجّل بالفعل، بحمّل بياناتك...';loadMe()}else $('am').textContent=(/nickname/.test(e)?'الاسم ده مستخدم، اختار غيره':'تعذّر الحفظ')+' ('+e+')'}else loadMe()};
+    return;
+  }
+  const pro=PROF.plan==='pro'&&PROF.plan_until&&new Date(PROF.plan_until)>new Date();
+  el.innerHTML='<h2>أهلا '+esc(PROF.nickname)+roleTag(PROF.role)+' 👋</h2><div class="card"><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p><p>⭐ المستوى '+lvl(PROF.xp)+' · '+PROF.xp+' نقطة · 🔥 '+PROF.streak+' يوم</p><p>الباقة: <b>'+(pro?'Pro حتى '+new Date(PROF.plan_until).toLocaleDateString('ar-EG'):'مجانية')+'</b></p></div><div class="card"><b>كود الاشتراك</b><div class="row"><input class="f" id="cd" placeholder="SOS-XXXX-XXXX" dir="ltr" style="flex:1;margin:0"><button id="rd">فعّل</button></div><div class="msg" id="am"></div></div><div class="card"><b>بيانات الغرفة 🔒</b><p class="sub">المرحلة والسنة والتخصص ثابتين بعد إنشاء الحساب لضمان استقرار غرف التخصص.</p><p>'+esc(roomOf(PROF).replace(/\|/g,' · '))+'</p></div><button class="ghost" id="lo">تسجيل خروج</button>';
+  $('rd').onclick=async()=>{const r=await sb.rpc('redeem_code',{p_code:$('cd').value});if(r.error)$('am').textContent='الكود غلط أو مستخدم قبل كده';else{$('am').textContent='✅ اتفعّل الاشتراك';loadMe()}};
+  $('lo').onclick=()=>sb.auth.signOut();
+  $('eb').onclick=async()=>{
+    if(!confirm('تغيير بياناتك هينقلك لغرفة شات تانية، ومش هتقدر تغيّرها تاني قبل 30 يوم. متأكد؟'))return;
+    const r=await sb.rpc('update_profile',{p_stage:$('esg').value,p_year:$('eyr').value,p_field:$('efl').value});
+    $('em2').textContent=r.error?(/too soon/.test(r.error.message)?'مينفعش تعدّل قبل 30 يوم من آخر تعديل.':'تعذر الحفظ: '+r.error.message):'✅ اتحفظت بياناتك';
+    if(!r.error)loadMe();
+  };
+}
+function syncResult(score){
+  if(!PROF)return;
+  sb.rpc('submit_result',{p_score:score,p_total:Q.length}).then(r=>{
+    const el=document.createElement('div');el.className='sub';
+    el.textContent=r.error?('تعذر التسجيل في المتصدرين: '+(/too fast/.test(r.error.message)?'استنى دقيقة بين كل اختبارين':r.error.message)):'🏆 اتسجلت في المتصدرين: +'+r.data+' نقطة';
+    $('result').appendChild(el);loadMe();
+  });
+}
+async function loadBoard(){
+  const el=$('bdy');el.innerHTML='<tr><td>جاري التحميل...</td></tr>';
+  let q=sb.from('leaderboard').select('*').order('xp',{ascending:false}).limit(50);
+  if($('myroom').checked&&PROF)q=q.eq('stage',PROF.stage).eq('year',PROF.year).eq('field',PROF.field);
+  const {data,error}=await q;
+  if(error){el.innerHTML='<tr><td>تعذر التحميل</td></tr>';return}
+  el.innerHTML=data.length?'<tr><th>#</th><th>الاسم</th><th>الغرفة</th><th>النقاط</th></tr>'+data.map((r,i)=>'<tr'+(PROF&&r.nickname===PROF.nickname?' style="font-weight:700;color:var(--pri)"':'')+'><td>'+(['🥇','🥈','🥉'][i]||i+1)+'</td><td>'+esc(r.nickname)+roleTag(r.role)+'</td><td>'+esc(r.year+' · '+r.field)+'</td><td>'+r.xp+' ⭐'+lvl(r.xp)+'</td></tr>').join(''):'<tr><td>لسه مفيش حد. كون أنت الأول! 🏆</td></tr>';
+}
+$('myroom').onchange=loadBoard;
+function addMsg(m){
+  const box=$('msgs');if(!box||box.querySelector('[data-id="'+m.id+'"]'))return;
+  const mine=PROF&&m.user_id===PROF.id,d=document.createElement('div');
+  d.className='m'+(mine?' me':'')+(m.role==='owner'?' owner':m.role==='vip'?' vip':'');d.dataset.id=m.id;
+  d.innerHTML='<b>'+esc(m.nickname)+'</b>'+roleTag(m.role)+' <span dir="auto">'+esc(m.body)+'</span>'+(mine?'':' <button class="ghost rp" title="إبلاغ">🚩</button>');
+  const b=d.querySelector('.rp');if(b)b.onclick=async()=>{await sb.from('reports').insert({message_id:m.id});b.textContent='✓';b.disabled=true};
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+}
+async function send(){
+  const i=$('mi'),body=i.value.trim();if(!body||!PROF)return;
+  const r=await sb.from('messages').insert({room:roomOf(PROF),user_id:PROF.id,nickname:PROF.nickname,body}).select().single();
+  $('cm').textContent=r.error?(/SOS_CHAT_BANNED/.test(r.error.message)?'⛔ حسابك محظور مؤقتًا لحين مراجعة الإدارة.':/slow/.test(r.error.message)?'براحة شوية 😅':'الرسالة مرفوضة (ممنوع الروابط وأرقام التليفونات)'):(!r.data?'⛔ الرسالة اتمنعت تلقائيًا، وتم إرسالها للمراجعة.':'');
+  if(!r.error){i.value='';if(r.data)addMsg(r.data)}
+}
+async function loadModeration(){
+  const p=$('modpanel');if(!p)return;p.hidden=false;p.innerHTML='<div class="card">جارٍ تحميل المراجعات...</div>';
+  const r=await sb.rpc('sos_get_moderation_cases');
+  if(r.error){p.innerHTML='<div class="card">تعذر تحميل المراجعات: '+esc(r.error.message)+'</div>';return}
+  const cases=r.data||[];
+  p.innerHTML='<div class="card"><h3>🛡️ مراجعة الرسائل المخالفة ('+cases.length+')</h3>'+(cases.length?cases.map(c=>'<article class="card"><b>'+esc(c.nickname||'مستخدم')+'</b><p>'+esc(c.message_body)+'</p><small>السبب: '+esc(c.matched_pattern||'فلتر تلقائي')+' · '+esc(c.room||'')+'</small><div class="row"><button data-review="'+c.id+'" data-keep="0">إلغاء البان</button><button class="ghost" data-review="'+c.id+'" data-keep="1">تثبيت البان</button></div></article>').join(''):'لا توجد رسائل بانتظار المراجعة.' )+'<button class="ghost" id="modclose">إغلاق</button></div>';
+  p.querySelectorAll('[data-review]').forEach(b=>b.onclick=async()=>{b.disabled=true;const rr=await sb.rpc('sos_review_moderation_case',{p_case_id:Number(b.dataset.review),p_keep_ban:b.dataset.keep==='1'});if(rr.error){alert('تعذر تنفيذ القرار: '+rr.error.message);b.disabled=false}else loadModeration()});
+  const close=$('modclose');if(close)close.onclick=()=>{p.hidden=true};
+}
+function roomTheme(field){const f=(field||'').toLowerCase();if(f.includes('ذكاء')||f.includes('ai'))return 'ai';if(f.includes('حاسبات'))return 'computers';if(f.includes('هندسة'))return 'engineering';if(f.includes('أسنان'))return 'dentistry';if(f.includes('صيدلة'))return 'pharmacy';if(f.includes('علاج'))return 'therapy';if(f.includes('طب')||f.includes('بيطري'))return 'medicine';if(f.includes('علوم'))return 'science';if(f.includes('تجارة'))return 'commerce';if(f.includes('حقوق'))return 'law';if(f.includes('آداب'))return 'arts';if(f.includes('تربية'))return 'education';return 'general'}
+async function openChat(){
+  const el=$('chatbox');
+  if(window.CH){sb.removeChannel(window.CH);window.CH=null}
+  if(!PROF){el.innerHTML='<div class="card">لازم تسجّل وتكمّل بياناتك الأول. <a href="#account">حسابي</a></div>';return}
+  const room=roomOf(PROF);$('roomname').textContent=room.replace(/\|/g,' · ');
+  el.dataset.roomTheme=roomTheme(PROF.field);el.innerHTML='<div class="owner-welcome"><b>el_sos OWNER👑</b> Welcome! I\'m Mostafa Abo Ouf, an AI student and the creator of this platform 👑 I built it so students can learn and compete together. Got a suggestion or a problem? Message me, I\'m listening.</div><div id="msgs" class="msgs"></div><div class="row"><input class="f" id="mi" maxlength="300" placeholder="اكتب رسالة..." style="flex:1;margin:0"><button id="ms">إرسال</button></div><div class="msg" id="cm"></div>'+(PROF.role==='owner'?' <button id="modopen" class="ghost">🛡️ مراجعة البلاغات</button>':'')+'<div id="modpanel" hidden></div>';
+  const r=await sb.from('messages').select('*').eq('room',room).order('id',{ascending:false}).limit(50);
+  (r.data||[]).reverse().forEach(addMsg);
+  window.CH=sb.channel('room-'+Date.now()).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{if(p.new.room===room)addMsg(p.new)}).subscribe();
+  $('ms').onclick=send;$('mi').onkeydown=e=>{if(e.key==='Enter')send()};
+  if(PROF.role==='owner'&&$('modopen'))$('modopen').onclick=loadModeration;
+}
+route();
+let tm=null,endAt=0;
+const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function stopTimer(){clearInterval(tm);tm=null}
+function paint(left){const el=$('timer');el.textContent='⏱ الوقت المتبقي: '+fmt(Math.max(left,0));el.style.color=left<=60?'var(--bad)':'var(--tx)'}
+function startTimer(){
+  stopTimer();const m=Math.max(0,Math.min(300,+$('mins').value||0));
+  if(!m){$('timer').hidden=true;return}
+  endAt=Date.now()+m*60000;$('timer').hidden=false;paint(m*60);
+  tm=setInterval(()=>{const left=Math.round((endAt-Date.now())/1000);paint(left);if(left<=0){stopTimer();$('timer').textContent='⏰ انتهى الوقت';$('submit').click()}},1000);
+}
+$('gen').onclick=async()=>{
+  if(!usageAllowed())return;
+  const text=$('text').value.normalize('NFKC').trim();
+  const types=[$('tMcq').checked&&'mcq',$('tTf').checked&&'tf',$('tSh').checked&&'sh'].filter(Boolean);
+  if(text.length<200){$('msg').textContent='النص قصير، ارفع محاضرة أو الصق نص أطول.';return}
+  if(!types.length){$('msg').textContent='اختار نوع أسئلة واحد على الأقل.';return}
+  const n=Math.max(3,Math.min(40,+$('count').value||10));
+  const clean=sanitize(text.replace(/⟦p\d+⟧/g,'\n')),tq=textQuality(clean);
+  if(!tq.ok&&!window.FORCE){window.FORCE=true;$('msg').textContent='⚠️ النص شكله مش نضيف ('+tq.why+'). جرّب أزرار القلب أو Word أو وضع الذكاء الاصطناعي. لو متأكد إنه سليم اضغط "ابدأ الاختبار" تاني.';return}
+  window.FORCE=false;
+  Q=$('useAI').checked?await aiBuild(text,n,types):build(text,n,types);
+  if(Q.length&&Q.length<n)$('msg').textContent='النص مش كفاية غير لـ '+Q.length+' سؤال سليم من '+n+' مطلوبين.';if(!Q.length){$('msg').textContent='مقدرتش أطلع أسئلة من النص ده.';return}
+  DONE=false;render();upd();startTimer();$('setup').hidden=true;$('quiz').hidden=false;$('result').hidden=true;$('submit').hidden=false;window.scrollTo(0,0);
+};
+$('submit').onclick=()=>{if(DONE)return;DONE=true;usageConsume();stopTimer();document.querySelectorAll('#qs input').forEach(i=>{i.disabled=true});
+  let score=0,UN=0;
+  Q.forEach((x,i)=>{
+    const card=$('c'+i),fb=$('f'+i);
+    const val=x.type==='sh'?card.querySelector('input[type=text]').value:(card.querySelector('input:checked')||{}).value||'';
+    const ok=same(val,x.a);if(!norm(val))UN++;if(ok)score++;
+    card.querySelectorAll('.opt').forEach(l=>{const v=l.querySelector('input').value;if(norm(v)===norm(x.a))l.classList.add('ok');else if(v===val)l.classList.add('bad')});
+    fb.className='fb '+(ok?'ok':'bad');
+    fb.textContent=ok?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+x.a+(x.src?' (ملاحظة: '+x.src+')':'');
+  });
+  const pct=Math.round(score/Q.length*100),g=grade(pct);
+  $('result').hidden=false;
+  $('result').innerHTML=`${badge(g)}<div class="sc">${g.n}</div><div class="sc">${score} / ${Q.length} (${pct}%)</div><div class="sub">✅ ${score} · ❌ ${Q.length-score-UN} · ⬜ ${UN}</div>${reward(score,pct)}`;
+  const r=store.get();r.push({t:title,s:score,n:Q.length,pct,d:new Date().toLocaleDateString('ar-EG')});store.set(r.slice(-50));
+  $('submit').hidden=true;usageHint();$('result').scrollIntoView({behavior:'smooth'});
+};
+$('again').onclick=()=>{stopTimer();$('timer').hidden=true;$('quiz').hidden=true;$('setup').hidden=false;$('text').value='';$('file').value='';$('msg').textContent='';title='نص ملصوق';window.scrollTo(0,0)};
+</script>
+
+
+</body></html>
